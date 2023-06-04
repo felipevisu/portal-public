@@ -1,0 +1,28 @@
+schema: schema.graphql
+generates:
+  ./graphql/hooks.generated.ts:
+    documents:
+      - ./**/_queries.ts
+      - ./**/fragments/*.ts
+    preset: import-types
+    presetConfig:
+      typesPath: ./types.generated
+    plugins:
+      - typescript-react-apollo
+  ./graphql/types.generated.ts:
+    documents:
+      - ./**/_queries.ts
+      - ./**/fragments/*.ts
+    config:
+      nonOptionalTypename: true
+      avoidOptionals:
+        field: true
+        inputValue: false
+        object: false
+        defaultValue: false
+      namingConvention:
+        enumValues: change-case-all#upperCase
+      onlyOperationTypes: true
+    plugins:
+      - typescript
+      - typescript-operations
