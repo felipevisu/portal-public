@@ -1,22 +1,26 @@
-import client from "@/graphql/client";
-import { channelsQuery } from "./_queries";
-import { ChannelFragment } from "@/graphql/types.generated";
+import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
+import { ApolloQueryResult } from "@apollo/client";
+import serverApolloClient from "@/lib/ssr/common";
+import { ChannelsDocument, ChannelsQuery } from "@/portal/api";
 
-interface PageProps {
-  channels: ChannelFragment[];
-}
+export const getStaticProps = async (context: GetStaticPropsContext) => {
+  const result: ApolloQueryResult<ChannelsQuery> =
+    await serverApolloClient.query<ChannelsQuery>({
+      query: ChannelsDocument,
+    });
 
-export const Page = ({ channels }: PageProps) => {
-  return <>Página inicial</>;
-};
-
-export const getStaticProps = async () => {
-  const { data } = await client.query({ query: channelsQuery });
   return {
     props: {
-      channels: data.channels,
+      channels: result?.data?.channels,
     },
+    revalidate: 60 * 60,
   };
+};
+
+export const Page = ({
+  channels,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
+  return <>Página inicial</>;
 };
 
 export default Page;

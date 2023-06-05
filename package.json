@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "build-types": "graphql-codegen",
-    "fetch-schema": "graphql-codegen --config ./fetch-schema.yaml && node scripts/build-schema.js"
+    "generate": "dotenv -c -- graphql-codegen --config codegen.yml -w"
   },
   "dependencies": {
     "@apollo/client": "^3.7.15",
@@ -28,8 +27,11 @@
     "@graphql-codegen/introspection": "^4.0.0",
     "@graphql-codegen/typed-document-node": "^5.0.0",
     "@graphql-codegen/typescript": "^4.0.0",
+    "@graphql-codegen/typescript-apollo-client-helpers": "^2.2.6",
     "@graphql-codegen/typescript-operations": "^4.0.0",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+    "dotenv": "^16.1.4",
+    "dotenv-cli": "^7.2.1",
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-compat": "^4.1.4",
