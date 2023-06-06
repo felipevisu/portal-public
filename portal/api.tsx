@@ -1814,10 +1814,22 @@ export type VerifyToken = {
 
 export type ChannelFragment = { __typename?: 'Channel', id: string, name: string, slug: string };
 
+export type ChannelQueryVariables = Exact<{
+  slug?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type ChannelQuery = { __typename?: 'Query', channel?: { __typename?: 'Channel', id: string, name: string, slug: string } | null };
+
 export type ChannelsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ChannelsQuery = { __typename?: 'Query', channels?: Array<{ __typename?: 'Channel', id: string, name: string, slug: string }> | null };
+
+export type ChannelsPathsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ChannelsPathsQuery = { __typename?: 'Query', channels?: Array<{ __typename?: 'Channel', slug: string }> | null };
 
 export const ChannelFragmentDoc = gql`
     fragment Channel on Channel {
@@ -1826,6 +1838,41 @@ export const ChannelFragmentDoc = gql`
   slug
 }
     `;
+export const ChannelDocument = gql`
+    query Channel($slug: String) {
+  channel(slug: $slug) {
+    ...Channel
+  }
+}
+    ${ChannelFragmentDoc}`;
+
+/**
+ * __useChannelQuery__
+ *
+ * To run a query within a React component, call `useChannelQuery` and pass it any options that fit your needs.
+ * When your component renders, `useChannelQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useChannelQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useChannelQuery(baseOptions?: Apollo.QueryHookOptions<ChannelQuery, ChannelQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ChannelQuery, ChannelQueryVariables>(ChannelDocument, options);
+      }
+export function useChannelLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ChannelQuery, ChannelQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ChannelQuery, ChannelQueryVariables>(ChannelDocument, options);
+        }
+export type ChannelQueryHookResult = ReturnType<typeof useChannelQuery>;
+export type ChannelLazyQueryHookResult = ReturnType<typeof useChannelLazyQuery>;
+export type ChannelQueryResult = Apollo.QueryResult<ChannelQuery, ChannelQueryVariables>;
 export const ChannelsDocument = gql`
     query Channels {
   channels {
@@ -1860,6 +1907,40 @@ export function useChannelsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<C
 export type ChannelsQueryHookResult = ReturnType<typeof useChannelsQuery>;
 export type ChannelsLazyQueryHookResult = ReturnType<typeof useChannelsLazyQuery>;
 export type ChannelsQueryResult = Apollo.QueryResult<ChannelsQuery, ChannelsQueryVariables>;
+export const ChannelsPathsDocument = gql`
+    query ChannelsPaths {
+  channels {
+    slug
+  }
+}
+    `;
+
+/**
+ * __useChannelsPathsQuery__
+ *
+ * To run a query within a React component, call `useChannelsPathsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useChannelsPathsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useChannelsPathsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useChannelsPathsQuery(baseOptions?: Apollo.QueryHookOptions<ChannelsPathsQuery, ChannelsPathsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ChannelsPathsQuery, ChannelsPathsQueryVariables>(ChannelsPathsDocument, options);
+      }
+export function useChannelsPathsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ChannelsPathsQuery, ChannelsPathsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ChannelsPathsQuery, ChannelsPathsQueryVariables>(ChannelsPathsDocument, options);
+        }
+export type ChannelsPathsQueryHookResult = ReturnType<typeof useChannelsPathsQuery>;
+export type ChannelsPathsLazyQueryHookResult = ReturnType<typeof useChannelsPathsLazyQuery>;
+export type ChannelsPathsQueryResult = Apollo.QueryResult<ChannelsPathsQuery, ChannelsPathsQueryVariables>;
 export type ApproveDocumentFileKeySpecifier = ('documentFile' | 'errors' | ApproveDocumentFileKeySpecifier)[];
 export type ApproveDocumentFileFieldPolicy = {
 	documentFile?: FieldPolicy<any> | FieldReadFunction<any>,

@@ -1,26 +1,22 @@
-import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { ApolloQueryResult } from "@apollo/client";
 import serverApolloClient from "@/lib/ssr/common";
 import { ChannelsDocument, ChannelsQuery } from "@/portal/api";
+import { ChannelsList } from "@/components/channels";
 
-export const getStaticProps = async (context: GetStaticPropsContext) => {
+export const getData = async () => {
   const result: ApolloQueryResult<ChannelsQuery> =
     await serverApolloClient.query<ChannelsQuery>({
       query: ChannelsDocument,
     });
 
   return {
-    props: {
-      channels: result?.data?.channels,
-    },
-    revalidate: 60 * 60,
+    channels: result?.data?.channels || [],
   };
 };
 
-export const Page = ({
-  channels,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
-  return <>Página inicial</>;
+export const Page = async () => {
+  const { channels } = await getData();
+  return <ChannelsList channels={channels} />;
 };
 
 export default Page;
