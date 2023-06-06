@@ -1,7 +1,7 @@
-import { ApolloQueryResult } from "@apollo/client";
+import { ChannelsList } from "@/components/channels";
 import serverApolloClient from "@/lib/ssr/common";
 import { ChannelsDocument, ChannelsQuery } from "@/portal/api";
-import { ChannelsList } from "@/components/channels";
+import { ApolloQueryResult } from "@apollo/client";
 
 export const getData = async () => {
   const result: ApolloQueryResult<ChannelsQuery> =

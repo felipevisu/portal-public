@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import serverApolloClient from "@/lib/ssr/common";
 import { ChannelDocument, ChannelQuery } from "@/portal/api";
 import { ApolloQueryResult } from "@apollo/client";
@@ -25,6 +27,19 @@ export default async function Layout({ children, params }: PageProps) {
   return (
     <div>
       <h2>{channel.name}</h2>
+      <nav>
+        <ul>
+          <li>
+            <Link href={`/${params.channel}`}>Início</Link>
+          </li>
+          <li>
+            <Link href={`/${params.channel}/veiculos`}>Veículos</Link>
+          </li>
+          <li>
+            <Link href={`/${params.channel}/fornecedores`}>Fornecedores</Link>
+          </li>
+        </ul>
+      </nav>
       {children}
     </div>
   );

@@ -1,7 +1,6 @@
 import serverApolloClient from "@/lib/ssr/common";
 import { ChannelsPathsDocument, ChannelsPathsQuery } from "@/portal/api";
 import { ApolloQueryResult } from "@apollo/client";
-import Link from "next/link";
 
 export const generateStaticParams = async () => {
   const { data }: ApolloQueryResult<ChannelsPathsQuery> =
@@ -23,7 +22,7 @@ interface PageProps {
 export const Page = ({ params }: PageProps) => {
   return (
     <div>
-      <Link href={`${params.channel}/fornecedores`}>Fornecedores</Link>
+      <h3>Início</h3>
     </div>
   );
 };

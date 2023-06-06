@@ -1,7 +1,7 @@
 export const Page = () => {
   return (
     <div>
-      <h3>Fornecedores</h3>
+      <h3>Veículos</h3>
     </div>
   );
 };

@@ -1,5 +1,6 @@
-import { ChannelFragment } from "@/portal/api";
 import Link from "next/link";
+
+import { ChannelFragment } from "@/portal/api";
 
 interface ChannelsListProps {
   channels: ChannelFragment[];
