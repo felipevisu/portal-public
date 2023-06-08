@@ -1832,7 +1832,11 @@ export type AttributeFragment = { __typename?: 'Attribute', id: string, name?: s
 
 export type ChannelFragment = { __typename?: 'Channel', id: string, name: string, slug: string };
 
+export type DocumentFragment = { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null };
+
 export type EntryFragment = { __typename?: 'Entry', id: string, name: string, slug?: string | null, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', totalCount?: number | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> };
+
+export type EntryDetailsFragment = { __typename?: 'Entry', id: string, name: string, slug?: string | null, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', edges: Array<{ __typename?: 'DocumentCountableEdge', node: { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null } }> } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> };
 
 export type PageInfoFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
 
@@ -1871,6 +1875,24 @@ export type EntriesQueryVariables = Exact<{
 
 
 export type EntriesQuery = { __typename?: 'Query', entries?: { __typename?: 'EntryCountableConnection', edges: Array<{ __typename?: 'EntryCountableEdge', node: { __typename?: 'Entry', id: string, name: string, slug?: string | null, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', totalCount?: number | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+
+export type EntriesPathsQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  channel?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<EntryTypeEnum>;
+}>;
+
+
+export type EntriesPathsQuery = { __typename?: 'Query', entries?: { __typename?: 'EntryCountableConnection', edges: Array<{ __typename?: 'EntryCountableEdge', node: { __typename?: 'Entry', slug?: string | null } }> } | null };
+
+export type EntryQueryVariables = Exact<{
+  slug?: InputMaybe<Scalars['String']['input']>;
+  channel?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type EntryQuery = { __typename?: 'Query', entry?: { __typename?: 'Entry', id: string, name: string, slug?: string | null, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', edges: Array<{ __typename?: 'DocumentCountableEdge', node: { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null } }> } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> } | null };
 
 export const AttributeFragmentDoc = gql`
     fragment Attribute on Attribute {
@@ -1912,6 +1934,50 @@ export const EntryFragmentDoc = gql`
   }
 }
     `;
+export const DocumentFragmentDoc = gql`
+    fragment Document on Document {
+  id
+  name
+  description
+  expires
+  defaultFile {
+    beginDate
+    expirationDate
+    file {
+      url
+    }
+  }
+}
+    `;
+export const EntryDetailsFragmentDoc = gql`
+    fragment EntryDetails on Entry {
+  id
+  name
+  slug
+  type
+  documentNumber
+  categories {
+    id
+    name
+    slug
+  }
+  documents(first: 100) {
+    edges {
+      node {
+        ...Document
+      }
+    }
+  }
+  attributes {
+    attribute {
+      name
+    }
+    values {
+      name
+    }
+  }
+}
+    ${DocumentFragmentDoc}`;
 export const PageInfoFragmentDoc = gql`
     fragment PageInfo on PageInfo {
   endCursor
@@ -2117,6 +2183,84 @@ export function useEntriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<En
 export type EntriesQueryHookResult = ReturnType<typeof useEntriesQuery>;
 export type EntriesLazyQueryHookResult = ReturnType<typeof useEntriesLazyQuery>;
 export type EntriesQueryResult = Apollo.QueryResult<EntriesQuery, EntriesQueryVariables>;
+export const EntriesPathsDocument = gql`
+    query EntriesPaths($first: Int, $after: String, $channel: String, $type: EntryTypeEnum) {
+  entries(first: $first, after: $after, channel: $channel, filter: {type: $type}) {
+    edges {
+      node {
+        slug
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useEntriesPathsQuery__
+ *
+ * To run a query within a React component, call `useEntriesPathsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEntriesPathsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEntriesPathsQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      after: // value for 'after'
+ *      channel: // value for 'channel'
+ *      type: // value for 'type'
+ *   },
+ * });
+ */
+export function useEntriesPathsQuery(baseOptions?: Apollo.QueryHookOptions<EntriesPathsQuery, EntriesPathsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EntriesPathsQuery, EntriesPathsQueryVariables>(EntriesPathsDocument, options);
+      }
+export function useEntriesPathsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EntriesPathsQuery, EntriesPathsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EntriesPathsQuery, EntriesPathsQueryVariables>(EntriesPathsDocument, options);
+        }
+export type EntriesPathsQueryHookResult = ReturnType<typeof useEntriesPathsQuery>;
+export type EntriesPathsLazyQueryHookResult = ReturnType<typeof useEntriesPathsLazyQuery>;
+export type EntriesPathsQueryResult = Apollo.QueryResult<EntriesPathsQuery, EntriesPathsQueryVariables>;
+export const EntryDocument = gql`
+    query Entry($slug: String, $channel: String) {
+  entry(slug: $slug, channel: $channel) {
+    ...EntryDetails
+  }
+}
+    ${EntryDetailsFragmentDoc}`;
+
+/**
+ * __useEntryQuery__
+ *
+ * To run a query within a React component, call `useEntryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEntryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEntryQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *      channel: // value for 'channel'
+ *   },
+ * });
+ */
+export function useEntryQuery(baseOptions?: Apollo.QueryHookOptions<EntryQuery, EntryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EntryQuery, EntryQueryVariables>(EntryDocument, options);
+      }
+export function useEntryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EntryQuery, EntryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EntryQuery, EntryQueryVariables>(EntryDocument, options);
+        }
+export type EntryQueryHookResult = ReturnType<typeof useEntryQuery>;
+export type EntryLazyQueryHookResult = ReturnType<typeof useEntryLazyQuery>;
+export type EntryQueryResult = Apollo.QueryResult<EntryQuery, EntryQueryVariables>;
 export type ApproveDocumentFileKeySpecifier = ('documentFile' | 'errors' | ApproveDocumentFileKeySpecifier)[];
 export type ApproveDocumentFileFieldPolicy = {
 	documentFile?: FieldPolicy<any> | FieldReadFunction<any>,

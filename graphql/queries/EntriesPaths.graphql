@@ -1,0 +1,19 @@
+query EntriesPaths(
+  $first: Int
+  $after: String
+  $channel: String
+  $type: EntryTypeEnum
+) {
+  entries(
+    first: $first
+    after: $after
+    channel: $channel
+    filter: { type: $type }
+  ) {
+    edges {
+      node {
+        slug
+      }
+    }
+  }
+}

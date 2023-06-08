@@ -1,0 +1,27 @@
+fragment EntryDetails on Entry {
+  id
+  name
+  slug
+  type
+  documentNumber
+  categories {
+    id
+    name
+    slug
+  }
+  documents(first: 100) {
+    edges {
+      node {
+        ...Document
+      }
+    }
+  }
+  attributes {
+    attribute {
+      name
+    }
+    values {
+      name
+    }
+  }
+}

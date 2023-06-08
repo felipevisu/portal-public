@@ -1,0 +1,13 @@
+fragment Document on Document {
+  id
+  name
+  description
+  expires
+  defaultFile {
+    beginDate
+    expirationDate
+    file {
+      url
+    }
+  }
+}

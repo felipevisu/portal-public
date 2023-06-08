@@ -1,9 +1,8 @@
 export const revalidate = 0;
 
-import Link from "next/link";
-
 import AttributeList from "@/components/AttributeList";
 import EntryList from "@/components/EntryList";
+import Paginator from "@/components/Pagtinator";
 import client from "@/lib/client";
 import {
   AttributesDocument,
@@ -13,6 +12,7 @@ import {
 } from "@/portal/api";
 import { getEntryType } from "@/utils/entryType";
 import { mapEdgesToItems } from "@/utils/maps";
+import { getPagination } from "@/utils/pagination";
 import { ApolloQueryResult } from "@apollo/client";
 
 type Params = { channel: string; type: string };
@@ -22,12 +22,6 @@ interface PageProps {
   params: Params;
   searchParams: SearchParams;
 }
-
-const getPagination = (searchParams: SearchParams) => {
-  if (searchParams.after) return { first: 10, after: searchParams.after };
-  if (searchParams.before) return { last: 10, before: searchParams.before };
-  return { first: 10 };
-};
 
 const getData = async (params: Params, searchParams: SearchParams) => {
   const attributes: ApolloQueryResult<AttributesQuery> =
@@ -58,32 +52,13 @@ export default async function Page({ params, searchParams }: PageProps) {
   const { attributes, entries } = await getData(params, searchParams);
   if (!attributes || !entries) return null;
 
-  const { pageInfo } = entries;
+  const path = `/${params.channel}/${params.type}`;
 
   return (
     <>
       <AttributeList attributes={mapEdgesToItems(attributes) || []} />
-      <EntryList entries={mapEdgesToItems(entries) || []} />
-      {pageInfo.hasPreviousPage && (
-        <Link
-          href={{
-            pathname: `/${params.channel}/${params.type}`,
-            query: { before: pageInfo.startCursor },
-          }}
-        >
-          Anterior
-        </Link>
-      )}
-      {pageInfo.hasNextPage && (
-        <Link
-          href={{
-            pathname: `/${params.channel}/${params.type}`,
-            query: { after: pageInfo.endCursor },
-          }}
-        >
-          Proximo
-        </Link>
-      )}
+      <EntryList entries={mapEdgesToItems(entries) || []} path={path} />
+      <Paginator pageInfo={entries.pageInfo} path={path} />
     </>
   );
 }

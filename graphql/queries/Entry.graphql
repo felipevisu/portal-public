@@ -1,0 +1,5 @@
+query Entry($slug: String, $channel: String) {
+  entry(slug: $slug, channel: $channel) {
+    ...EntryDetails
+  }
+}
