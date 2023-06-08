@@ -3,7 +3,7 @@ import client from "@/lib/client";
 import { ChannelsDocument, ChannelsQuery } from "@/portal/api";
 import { ApolloQueryResult } from "@apollo/client";
 
-export const getData = async () => {
+const getData = async () => {
   const result: ApolloQueryResult<ChannelsQuery> =
     await client.query<ChannelsQuery>({
       query: ChannelsDocument,
@@ -14,7 +14,7 @@ export const getData = async () => {
   };
 };
 
-export const Page = async () => {
+const Page = async () => {
   const { channels } = await getData();
   return <ChannelsList channels={channels} />;
 };

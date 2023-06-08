@@ -12,14 +12,14 @@ export const generateStaticParams = async () => {
     return { channel: channel.slug };
   });
 
-  return paths;
+  return paths || [];
 };
 
 interface PageProps {
   params: { channel: string };
 }
 
-export const Page = ({ params }: PageProps) => {
+const Page = ({ params }: PageProps) => {
   return (
     <div>
       <h3>Início</h3>
