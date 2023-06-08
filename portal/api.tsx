@@ -77,11 +77,12 @@ export type AttributeEntriesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type AttributeChoicesSortField =
+export enum AttributeChoicesSortField {
   /** Sort attribute choice by name. */
-  | 'NAME'
+  NAME = 'NAME',
   /** Sort attribute choice by slug. */
-  | 'SLUG';
+  SLUG = 'SLUG'
+}
 
 export type AttributeChoicesSortingInput = {
   direction: OrderDirection;
@@ -132,9 +133,10 @@ export type AttributeDelete = {
 };
 
 /** An enumeration. */
-export type AttributeEntityTypeEnum =
-  | 'PROVIDER'
-  | 'VEHICLE';
+export enum AttributeEntityTypeEnum {
+  PROVIDER = 'PROVIDER',
+  VEHICLE = 'VEHICLE'
+}
 
 export type AttributeFilterInput = {
   filterableInDashboard?: InputMaybe<Scalars['Boolean']['input']>;
@@ -157,29 +159,31 @@ export type AttributeInput = {
 };
 
 /** An enumeration. */
-export type AttributeInputTypeEnum =
-  | 'BOOLEAN'
-  | 'DATE'
-  | 'DROPDOWN'
-  | 'FILE'
-  | 'MULTISELECT'
-  | 'PLAIN_TEXT'
-  | 'REFERENCE'
-  | 'SWATCH';
+export enum AttributeInputTypeEnum {
+  BOOLEAN = 'BOOLEAN',
+  DATE = 'DATE',
+  DROPDOWN = 'DROPDOWN',
+  FILE = 'FILE',
+  MULTISELECT = 'MULTISELECT',
+  PLAIN_TEXT = 'PLAIN_TEXT',
+  REFERENCE = 'REFERENCE',
+  SWATCH = 'SWATCH'
+}
 
-export type AttributeSortField =
+export enum AttributeSortField {
   /** Sort attributes by the filterable in dashboard flag */
-  | 'FILTERABLE_IN_DASHBOARD'
+  FILTERABLE_IN_DASHBOARD = 'FILTERABLE_IN_DASHBOARD',
   /** Sort attributes by the filterable in storefront flag */
-  | 'FILTERABLE_IN_WEBSITE'
+  FILTERABLE_IN_WEBSITE = 'FILTERABLE_IN_WEBSITE',
   /** Sort attributes by name */
-  | 'NAME'
+  NAME = 'NAME',
   /** Sort attributes by slug */
-  | 'SLUG'
+  SLUG = 'SLUG',
   /** Sort attributes by the value required flag */
-  | 'VALUE_REQUIRED'
+  VALUE_REQUIRED = 'VALUE_REQUIRED',
   /** Sort attributes by visibility in the storefront */
-  | 'VISIBLE_IN_WEBSITE';
+  VISIBLE_IN_WEBSITE = 'VISIBLE_IN_WEBSITE'
+}
 
 export type AttributeSortingInput = {
   direction: OrderDirection;
@@ -188,11 +192,12 @@ export type AttributeSortingInput = {
 };
 
 /** An enumeration. */
-export type AttributeTypeEnum =
-  | 'DOCUMENT'
-  | 'PROVIDER'
-  | 'VEHICLE'
-  | 'VEHICLE_AND_PROVIDER';
+export enum AttributeTypeEnum {
+  DOCUMENT = 'DOCUMENT',
+  PROVIDER = 'PROVIDER',
+  VEHICLE = 'VEHICLE',
+  VEHICLE_AND_PROVIDER = 'VEHICLE_AND_PROVIDER'
+}
 
 export type AttributeUpdate = {
   __typename?: 'AttributeUpdate';
@@ -372,8 +377,9 @@ export type CategoryInput = {
   type?: InputMaybe<EntryTypeEnum>;
 };
 
-export type CategorySortField =
-  | 'NAME';
+export enum CategorySortField {
+  NAME = 'NAME'
+}
 
 export type CategorySortingInput = {
   direction: OrderDirection;
@@ -446,14 +452,15 @@ export type ConfigurationItemInput = {
 };
 
 /** An enumeration. */
-export type ConfigurationTypeFieldEnum =
-  | 'BOOLEAN'
-  | 'MULTILINE'
-  | 'OUTPUT'
-  | 'PASSWORD'
-  | 'SECRET'
-  | 'SECRETMULTILINE'
-  | 'STRING';
+export enum ConfigurationTypeFieldEnum {
+  BOOLEAN = 'BOOLEAN',
+  MULTILINE = 'MULTILINE',
+  OUTPUT = 'OUTPUT',
+  PASSWORD = 'PASSWORD',
+  SECRET = 'SECRET',
+  SECRETMULTILINE = 'SECRETMULTILINE',
+  STRING = 'STRING'
+}
 
 export type Consult = Node & {
   __typename?: 'Consult';
@@ -528,7 +535,6 @@ export type Document = Node & {
   isPublished?: Maybe<Scalars['Boolean']['output']>;
   loadType?: Maybe<DocumentLoadOptionsEnum>;
   name: Scalars['String']['output'];
-  publicationDate?: Maybe<Scalars['Date']['output']>;
   updated?: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -589,10 +595,11 @@ export type DocumentFileDelete = {
 };
 
 /** An enumeration. */
-export type DocumentFileStatusEnum =
-  | 'APPROVED'
-  | 'REFUSED'
-  | 'WAITING';
+export enum DocumentFileStatusEnum {
+  APPROVED = 'APPROVED',
+  REFUSED = 'REFUSED',
+  WAITING = 'WAITING'
+}
 
 export type DocumentFilterInput = {
   beginDate?: InputMaybe<DateRangeInput>;
@@ -615,7 +622,6 @@ export type DocumentInput = {
   loadType?: InputMaybe<DocumentLoadOptionsEnum>;
   name?: InputMaybe<Scalars['String']['input']>;
   provider?: InputMaybe<Scalars['ID']['input']>;
-  publicationDate?: InputMaybe<Scalars['Date']['input']>;
 };
 
 export type DocumentLoad = Node & {
@@ -628,26 +634,29 @@ export type DocumentLoad = Node & {
 };
 
 /** An enumeration. */
-export type DocumentLoadOptionsEnum =
-  | 'CND'
-  | 'CNDT'
-  | 'CNEP'
-  | 'EMPTY'
-  | 'FGTS'
-  | 'JUCESP'
-  | 'MEI'
-  | 'SEFAZ_MG'
-  | 'SEFAZ_SP'
-  | 'TCU';
+export enum DocumentLoadOptionsEnum {
+  CND = 'CND',
+  CNDT = 'CNDT',
+  CNEP = 'CNEP',
+  EMPTY = 'EMPTY',
+  FGTS = 'FGTS',
+  JUCESP = 'JUCESP',
+  MEI = 'MEI',
+  SEFAZ_MG = 'SEFAZ_MG',
+  SEFAZ_SP = 'SEFAZ_SP',
+  TCU = 'TCU'
+}
 
 /** An enumeration. */
-export type DocumentLoadStatusEnum =
-  | 'ERROR'
-  | 'PENDING'
-  | 'SUCCESS';
+export enum DocumentLoadStatusEnum {
+  ERROR = 'ERROR',
+  PENDING = 'PENDING',
+  SUCCESS = 'SUCCESS'
+}
 
-export type DocumentSortField =
-  | 'CREATED';
+export enum DocumentSortField {
+  CREATED = 'CREATED'
+}
 
 export type DocumentSortingInput = {
   direction: OrderDirection;
@@ -809,16 +818,16 @@ export type EntryInput = {
   isPublished?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
-  publicationDate?: InputMaybe<Scalars['Date']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<EntryTypeEnum>;
 };
 
-export type EntrySortField =
-  | 'CREATED'
-  | 'NAME'
-  | 'PUBLISHED'
-  | 'UPDATED';
+export enum EntrySortField {
+  CREATED = 'CREATED',
+  NAME = 'NAME',
+  PUBLISHED = 'PUBLISHED',
+  UPDATED = 'UPDATED'
+}
 
 export type EntrySortingInput = {
   direction: OrderDirection;
@@ -827,9 +836,10 @@ export type EntrySortingInput = {
 };
 
 /** An enumeration. */
-export type EntryTypeEnum =
-  | 'PROVIDER'
-  | 'VEHICLE';
+export enum EntryTypeEnum {
+  PROVIDER = 'PROVIDER',
+  VEHICLE = 'VEHICLE'
+}
 
 export type EntryUpdate = {
   __typename?: 'EntryUpdate';
@@ -880,19 +890,20 @@ export type EventCountableEdge = {
 };
 
 /** An enumeration. */
-export type EventTypesEnum =
-  | 'DOCUMENT_APPROVED'
-  | 'DOCUMENT_CREATED'
-  | 'DOCUMENT_DECLINED'
-  | 'DOCUMENT_DELETED'
-  | 'DOCUMENT_LOADED_FAIL'
-  | 'DOCUMENT_LOADED_FROM_API'
-  | 'DOCUMENT_RECEIVED'
-  | 'DOCUMENT_REQUESTED'
-  | 'DOCUMENT_UPDATED'
-  | 'ENTRY_CREATED'
-  | 'ENTRY_DELETED'
-  | 'ENTRY_UPDATED';
+export enum EventTypesEnum {
+  DOCUMENT_APPROVED = 'DOCUMENT_APPROVED',
+  DOCUMENT_CREATED = 'DOCUMENT_CREATED',
+  DOCUMENT_DECLINED = 'DOCUMENT_DECLINED',
+  DOCUMENT_DELETED = 'DOCUMENT_DELETED',
+  DOCUMENT_LOADED_FAIL = 'DOCUMENT_LOADED_FAIL',
+  DOCUMENT_LOADED_FROM_API = 'DOCUMENT_LOADED_FROM_API',
+  DOCUMENT_RECEIVED = 'DOCUMENT_RECEIVED',
+  DOCUMENT_REQUESTED = 'DOCUMENT_REQUESTED',
+  DOCUMENT_UPDATED = 'DOCUMENT_UPDATED',
+  ENTRY_CREATED = 'ENTRY_CREATED',
+  ENTRY_DELETED = 'ENTRY_DELETED',
+  ENTRY_UPDATED = 'ENTRY_UPDATED'
+}
 
 export type File = {
   __typename?: 'File';
@@ -965,8 +976,9 @@ export type InvestmentInput = {
   year?: InputMaybe<Scalars['Int']['input']>;
 };
 
-export type InvestmentSortField =
-  | 'CREATED';
+export enum InvestmentSortField {
+  CREATED = 'CREATED'
+}
 
 export type InvestmentSortingInput = {
   direction: OrderDirection;
@@ -1392,11 +1404,12 @@ export type Node = {
   id: Scalars['ID']['output'];
 };
 
-export type OrderDirection =
+export enum OrderDirection {
   /** Specifies an ascending sort order. */
-  | 'ASC'
+  ASC = 'ASC',
   /** Specifies a descending sort order. */
-  | 'DESC';
+  DESC = 'DESC'
+}
 
 /** The Relay compliant `PageInfo` type, containing data necessary to paginate this connection. */
 export type PageInfo = {
@@ -1437,9 +1450,10 @@ export type PluginConfiguration = {
   configuration?: Maybe<Array<ConfigurationItem>>;
 };
 
-export type PluginConfigurationType =
-  | 'GLOBAL'
-  | 'PER_CHANNEL';
+export enum PluginConfigurationType {
+  GLOBAL = 'GLOBAL',
+  PER_CHANNEL = 'PER_CHANNEL'
+}
 
 export type PluginCountableConnection = {
   __typename?: 'PluginCountableConnection';
@@ -1464,9 +1478,10 @@ export type PluginFilterInput = {
   type?: InputMaybe<PluginConfigurationType>;
 };
 
-export type PluginSortField =
-  | 'IS_ACTIVE'
-  | 'NAME';
+export enum PluginSortField {
+  IS_ACTIVE = 'IS_ACTIVE',
+  NAME = 'NAME'
+}
 
 export type PluginSortingInput = {
   direction: OrderDirection;
@@ -1763,8 +1778,9 @@ export type SessionInput = {
   slug?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type SessionSortField =
-  | 'NAME';
+export enum SessionSortField {
+  NAME = 'NAME'
+}
 
 export type SessionSortingInput = {
   direction: OrderDirection;
@@ -1814,6 +1830,10 @@ export type VerifyToken = {
 
 export type ChannelFragment = { __typename?: 'Channel', id: string, name: string, slug: string };
 
+export type EntryFragment = { __typename?: 'Entry', id: string, name: string, slug?: string | null, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', totalCount?: number | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> };
+
+export type PageInfoFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
+
 export type ChannelQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']['input']>;
 }>;
@@ -1831,11 +1851,56 @@ export type ChannelsPathsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type ChannelsPathsQuery = { __typename?: 'Query', channels?: Array<{ __typename?: 'Channel', slug: string }> | null };
 
+export type EntriesQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  channel?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<EntryFilterInput>;
+}>;
+
+
+export type EntriesQuery = { __typename?: 'Query', entries?: { __typename?: 'EntryCountableConnection', edges: Array<{ __typename?: 'EntryCountableEdge', node: { __typename?: 'Entry', id: string, name: string, slug?: string | null, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', totalCount?: number | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+
 export const ChannelFragmentDoc = gql`
     fragment Channel on Channel {
   id
   name
   slug
+}
+    `;
+export const EntryFragmentDoc = gql`
+    fragment Entry on Entry {
+  id
+  name
+  slug
+  type
+  documentNumber
+  categories {
+    id
+    name
+    slug
+  }
+  documents {
+    totalCount
+  }
+  attributes {
+    attribute {
+      name
+    }
+    values {
+      name
+    }
+  }
+}
+    `;
+export const PageInfoFragmentDoc = gql`
+    fragment PageInfo on PageInfo {
+  endCursor
+  hasNextPage
+  hasPreviousPage
+  startCursor
 }
     `;
 export const ChannelDocument = gql`
@@ -1941,6 +2006,61 @@ export function useChannelsPathsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type ChannelsPathsQueryHookResult = ReturnType<typeof useChannelsPathsQuery>;
 export type ChannelsPathsLazyQueryHookResult = ReturnType<typeof useChannelsPathsLazyQuery>;
 export type ChannelsPathsQueryResult = Apollo.QueryResult<ChannelsPathsQuery, ChannelsPathsQueryVariables>;
+export const EntriesDocument = gql`
+    query Entries($first: Int, $last: Int, $before: String, $after: String, $channel: String, $filter: EntryFilterInput) {
+  entries(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    channel: $channel
+    filter: $filter
+  ) {
+    edges {
+      node {
+        ...Entry
+      }
+    }
+    pageInfo {
+      ...PageInfo
+    }
+  }
+}
+    ${EntryFragmentDoc}
+${PageInfoFragmentDoc}`;
+
+/**
+ * __useEntriesQuery__
+ *
+ * To run a query within a React component, call `useEntriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEntriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEntriesQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      last: // value for 'last'
+ *      before: // value for 'before'
+ *      after: // value for 'after'
+ *      channel: // value for 'channel'
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useEntriesQuery(baseOptions?: Apollo.QueryHookOptions<EntriesQuery, EntriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EntriesQuery, EntriesQueryVariables>(EntriesDocument, options);
+      }
+export function useEntriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EntriesQuery, EntriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EntriesQuery, EntriesQueryVariables>(EntriesDocument, options);
+        }
+export type EntriesQueryHookResult = ReturnType<typeof useEntriesQuery>;
+export type EntriesLazyQueryHookResult = ReturnType<typeof useEntriesLazyQuery>;
+export type EntriesQueryResult = Apollo.QueryResult<EntriesQuery, EntriesQueryVariables>;
 export type ApproveDocumentFileKeySpecifier = ('documentFile' | 'errors' | ApproveDocumentFileKeySpecifier)[];
 export type ApproveDocumentFileFieldPolicy = {
 	documentFile?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2142,7 +2262,7 @@ export type DeactivateAllUserTokensKeySpecifier = ('errors' | DeactivateAllUserT
 export type DeactivateAllUserTokensFieldPolicy = {
 	errors?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type DocumentKeySpecifier = ('created' | 'defaultFile' | 'description' | 'entry' | 'events' | 'expired' | 'expires' | 'files' | 'id' | 'isPublished' | 'loadType' | 'name' | 'publicationDate' | 'updated' | DocumentKeySpecifier)[];
+export type DocumentKeySpecifier = ('created' | 'defaultFile' | 'description' | 'entry' | 'events' | 'expired' | 'expires' | 'files' | 'id' | 'isPublished' | 'loadType' | 'name' | 'updated' | DocumentKeySpecifier)[];
 export type DocumentFieldPolicy = {
 	created?: FieldPolicy<any> | FieldReadFunction<any>,
 	defaultFile?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2156,7 +2276,6 @@ export type DocumentFieldPolicy = {
 	isPublished?: FieldPolicy<any> | FieldReadFunction<any>,
 	loadType?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
-	publicationDate?: FieldPolicy<any> | FieldReadFunction<any>,
 	updated?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type DocumentBulkDeleteKeySpecifier = ('count' | 'errors' | DocumentBulkDeleteKeySpecifier)[];

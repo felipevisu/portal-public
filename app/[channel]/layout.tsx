@@ -1,12 +1,12 @@
 import Link from "next/link";
 
-import serverApolloClient from "@/lib/ssr/common";
+import client from "@/lib/client";
 import { ChannelDocument, ChannelQuery } from "@/portal/api";
 import { ApolloQueryResult } from "@apollo/client";
 
 export const getData = async (slug: string) => {
   const result: ApolloQueryResult<ChannelQuery> =
-    await serverApolloClient.query<ChannelQuery>({
+    await client.query<ChannelQuery>({
       query: ChannelDocument,
       variables: { slug: slug },
     });
@@ -14,12 +14,12 @@ export const getData = async (slug: string) => {
   return { channel: result?.data?.channel };
 };
 
-interface PageProps {
+interface LayoutProps {
   children: React.ReactNode;
   params: { channel: string };
 }
 
-export default async function Layout({ children, params }: PageProps) {
+export default async function Layout({ children, params }: LayoutProps) {
   const { channel } = await getData(params.channel);
 
   if (!channel) return null;

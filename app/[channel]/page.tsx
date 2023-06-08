@@ -1,10 +1,10 @@
-import serverApolloClient from "@/lib/ssr/common";
+import client from "@/lib/client";
 import { ChannelsPathsDocument, ChannelsPathsQuery } from "@/portal/api";
 import { ApolloQueryResult } from "@apollo/client";
 
 export const generateStaticParams = async () => {
   const { data }: ApolloQueryResult<ChannelsPathsQuery> =
-    await serverApolloClient.query<ChannelsPathsQuery>({
+    await client.query<ChannelsPathsQuery>({
       query: ChannelsPathsDocument,
     });
 

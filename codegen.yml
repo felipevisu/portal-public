@@ -20,7 +20,8 @@ generates:
         Metadata: Record<string, string>
         DateTime: string
       dedupeOperationSuffix: true # Prevent suffix duplication in generated names
-      enumsAsTypes: true
+      namingConvention:
+        enumValues: change-case-all#upperCase
   ./graphql.schema.json:
     plugins:
       - "introspection"

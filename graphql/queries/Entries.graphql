@@ -1,0 +1,26 @@
+query Entries(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $channel: String
+  $filter: EntryFilterInput
+) {
+  entries(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    channel: $channel
+    filter: $filter
+  ) {
+    edges {
+      node {
+        ...Entry
+      }
+    }
+    pageInfo {
+      ...PageInfo
+    }
+  }
+}

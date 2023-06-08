@@ -4,9 +4,9 @@ const link = createHttpLink({
   uri: process.env.NEXT_PUBLIC_API_URI,
 });
 
-const serverApolloClient = new ApolloClient({
+const client = new ApolloClient({
   link: link,
   cache: new InMemoryCache(),
 });
 
-export default serverApolloClient;
+export default client;

@@ -1,0 +1,23 @@
+fragment Entry on Entry {
+  id
+  name
+  slug
+  type
+  documentNumber
+  categories {
+    id
+    name
+    slug
+  }
+  documents {
+    totalCount
+  }
+  attributes {
+    attribute {
+      name
+    }
+    values {
+      name
+    }
+  }
+}
