@@ -49,7 +49,7 @@ export const generateStaticParams = async () => {
       const entryPaths = entryNodes.map((entry) => {
         return {
           channel: channel.slug,
-          slug: entry.node.slug || "",
+          slug: entry.node.slug,
           type: type,
         };
       });
