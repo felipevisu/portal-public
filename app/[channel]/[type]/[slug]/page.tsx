@@ -1,5 +1,6 @@
 export const revalidate = 60;
 
+import EntryDetails from "@/components/EntryDetails";
 import client from "@/lib/client";
 import {
   ChannelsPathsDocument,
@@ -77,5 +78,5 @@ export default async function Page({ params }: PageProps) {
   const { entry } = await getData(params);
   if (!entry) return null;
 
-  return <>{entry.name}</>;
+  return <EntryDetails entry={entry} />;
 }

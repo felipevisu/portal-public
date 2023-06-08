@@ -1,3 +1,7 @@
+import Link from "next/link";
+
+import "../global.css";
+
 export default function RootLayout({
   children,
 }: {
@@ -7,7 +11,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <header>
-          <h1>Publicidade da Cidade</h1>
+          <Link href="/">
+            <h1>Publicidade da Cidade</h1>
+          </Link>
         </header>
         <main>{children}</main>
       </body>
