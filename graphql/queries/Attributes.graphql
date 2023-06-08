@@ -1,0 +1,9 @@
+query Attributes($filter: AttributeFilterInput) {
+  attributes(first: 100, filter: $filter) {
+    edges {
+      node {
+        ...Attribute
+      }
+    }
+  }
+}

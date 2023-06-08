@@ -1,0 +1,6 @@
+fragment Attribute on Attribute {
+  id
+  name
+  slug
+  type
+}

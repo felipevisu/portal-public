@@ -1828,11 +1828,20 @@ export type VerifyToken = {
   user?: Maybe<User>;
 };
 
+export type AttributeFragment = { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null };
+
 export type ChannelFragment = { __typename?: 'Channel', id: string, name: string, slug: string };
 
 export type EntryFragment = { __typename?: 'Entry', id: string, name: string, slug?: string | null, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', totalCount?: number | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> };
 
 export type PageInfoFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
+
+export type AttributesQueryVariables = Exact<{
+  filter?: InputMaybe<AttributeFilterInput>;
+}>;
+
+
+export type AttributesQuery = { __typename?: 'Query', attributes?: { __typename?: 'AttributeCountableConnection', edges: Array<{ __typename?: 'AttributeCountableEdge', node: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null } }> } | null };
 
 export type ChannelQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -1863,6 +1872,14 @@ export type EntriesQueryVariables = Exact<{
 
 export type EntriesQuery = { __typename?: 'Query', entries?: { __typename?: 'EntryCountableConnection', edges: Array<{ __typename?: 'EntryCountableEdge', node: { __typename?: 'Entry', id: string, name: string, slug?: string | null, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', totalCount?: number | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
 
+export const AttributeFragmentDoc = gql`
+    fragment Attribute on Attribute {
+  id
+  name
+  slug
+  type
+}
+    `;
 export const ChannelFragmentDoc = gql`
     fragment Channel on Channel {
   id
@@ -1903,6 +1920,45 @@ export const PageInfoFragmentDoc = gql`
   startCursor
 }
     `;
+export const AttributesDocument = gql`
+    query Attributes($filter: AttributeFilterInput) {
+  attributes(first: 100, filter: $filter) {
+    edges {
+      node {
+        ...Attribute
+      }
+    }
+  }
+}
+    ${AttributeFragmentDoc}`;
+
+/**
+ * __useAttributesQuery__
+ *
+ * To run a query within a React component, call `useAttributesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAttributesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAttributesQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useAttributesQuery(baseOptions?: Apollo.QueryHookOptions<AttributesQuery, AttributesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AttributesQuery, AttributesQueryVariables>(AttributesDocument, options);
+      }
+export function useAttributesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AttributesQuery, AttributesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AttributesQuery, AttributesQueryVariables>(AttributesDocument, options);
+        }
+export type AttributesQueryHookResult = ReturnType<typeof useAttributesQuery>;
+export type AttributesLazyQueryHookResult = ReturnType<typeof useAttributesLazyQuery>;
+export type AttributesQueryResult = Apollo.QueryResult<AttributesQuery, AttributesQueryVariables>;
 export const ChannelDocument = gql`
     query Channel($slug: String) {
   channel(slug: $slug) {

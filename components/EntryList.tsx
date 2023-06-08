@@ -3,14 +3,9 @@
 import { useParams } from "next/navigation";
 
 import client from "@/lib/client";
-import { EntryTypeEnum, useEntriesQuery } from "@/portal/api";
+import { useEntriesQuery } from "@/portal/api";
+import { getEntryType } from "@/utils/entryType";
 import { mapEdgesToItems } from "@/utils/maps";
-
-const getType = (type: string) => {
-  if (type === "fornecedores") return EntryTypeEnum.PROVIDER;
-  if (type === "veiculos") return EntryTypeEnum.VEHICLE;
-  return null;
-};
 
 export const EntryList = () => {
   const { channel, type } = useParams();
@@ -20,7 +15,7 @@ export const EntryList = () => {
       first: 10,
       channel: channel,
       filter: {
-        type: getType(type),
+        type: getEntryType(type),
       },
     },
   });
