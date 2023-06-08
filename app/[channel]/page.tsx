@@ -19,12 +19,10 @@ interface PageProps {
   params: { channel: string };
 }
 
-const Page = ({ params }: PageProps) => {
+export default async function Page({ params }: PageProps) {
   return (
     <div>
       <h3>Início</h3>
     </div>
   );
-};
-
-export default Page;
+}

@@ -4,7 +4,7 @@ import client from "@/lib/client";
 import { ChannelDocument, ChannelQuery } from "@/portal/api";
 import { ApolloQueryResult } from "@apollo/client";
 
-export const getData = async (slug: string) => {
+const getData = async (slug: string) => {
   const result: ApolloQueryResult<ChannelQuery> =
     await client.query<ChannelQuery>({
       query: ChannelDocument,

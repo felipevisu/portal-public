@@ -14,9 +14,7 @@ const getData = async () => {
   };
 };
 
-const Page = async () => {
+export default async function Page() {
   const { channels } = await getData();
   return <ChannelsList channels={channels} />;
-};
-
-export default Page;
+}

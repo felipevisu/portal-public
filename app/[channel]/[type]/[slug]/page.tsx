@@ -1,5 +1,3 @@
-const Page = () => {
+export default async function Page() {
   return <>Fornecedor</>;
-};
-
-export default Page;
+}
