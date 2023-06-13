@@ -15,8 +15,8 @@ export const ChannelsList = ({ channels }: ChannelsListProps) => {
       {channels.map((channel) => (
         <Link key={channel.id} href={`/${channel.slug}`}>
           <Card>
-            <h4 className="text-slate-900">{channel.name}</h4>
-            <div className="text-sm text-slate-500 mb-3">
+            <h4>{channel.name}</h4>
+            <div className="text-sm text-gray-500 mb-3">
               {channel.totalEntries} veículos e fornecedores
             </div>
             <Button>Acessar</Button>

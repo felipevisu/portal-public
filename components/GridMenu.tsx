@@ -31,7 +31,7 @@ export default function GridMenu({ channel }: { channel: string }) {
     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
       {ITEMS.map((item) => (
         <Link key={item.path} href={`/${channel}/${item.path}`}>
-          <div className="bg-white rounded-lg border border-slate-200 block overflow-hidden">
+          <div className="bg-white dark:dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 block overflow-hidden">
             <div className="relative h-48">
               <Image
                 fill={true}

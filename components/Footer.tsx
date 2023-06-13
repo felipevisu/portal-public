@@ -2,7 +2,7 @@ import Container from "./UI/container";
 
 export default function Footer() {
   return (
-    <footer className="bg-white border-t border-gray-200 py-4">
+    <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-4">
       <Container>
         <div className="text-center">
           Este portal é dirigido à administração pública e está em acordo com a

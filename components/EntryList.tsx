@@ -13,12 +13,15 @@ interface EntryListProps {
 
 export const EntryList = ({ entries, path }: EntryListProps) => {
   return (
-    <div className="bg-white border border-gray-200 shadow-sm rounded-lg">
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm rounded-lg">
       {entries?.map((entry) => (
-        <div key={entry.id} className="border-b border-gray-200 p-6">
+        <div
+          key={entry.id}
+          className="border-b border-gray-200 dark:border-gray-700  p-6"
+        >
           <div className="flex items-start">
             <h4 className="text-lg grow font-semibold">{entry.name}</h4>
-            <div className="text-slate-500">CNPJ: {entry.documentNumber}</div>
+            <div className="text-gray-500">CNPJ: {entry.documentNumber}</div>
           </div>
           <div className="grid grid-cols-2 py-3 gap-3">
             <EntryAttribute
