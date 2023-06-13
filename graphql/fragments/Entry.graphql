@@ -14,9 +14,11 @@ fragment Entry on Entry {
   }
   attributes {
     attribute {
+      id
       name
     }
     values {
+      id
       name
     }
   }

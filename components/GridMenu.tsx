@@ -28,7 +28,7 @@ const ITEMS = [
 
 export default function GridMenu({ channel }: { channel: string }) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
       {ITEMS.map((item) => (
         <Link key={item.path} href={`/${channel}/${item.path}`}>
           <div className="bg-white rounded-lg border border-slate-200 block overflow-hidden">
@@ -40,13 +40,8 @@ export default function GridMenu({ channel }: { channel: string }) {
                 src={item.thumbnail}
               />
             </div>
-            <div className="p-4 xl:flex items-end">
-              <div className="grow">
-                <h3 className="font-semibold text-lg">{item.title}</h3>
-                <h5 className="text-slate-500 mb-3 xl:mb-0">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                </h5>
-              </div>
+            <div className="p-4">
+              <h3 className="font-semibold text-lg mb-2">{item.title}</h3>
               <Button>Acessar</Button>
             </div>
           </div>

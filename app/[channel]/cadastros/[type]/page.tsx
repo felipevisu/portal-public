@@ -55,10 +55,14 @@ export default async function Page({ params, searchParams }: PageProps) {
   const path = `/${params.channel}/cadastros/${params.type}`;
 
   return (
-    <>
-      <AttributeList attributes={mapEdgesToItems(attributes) || []} />
-      <EntryList entries={mapEdgesToItems(entries) || []} path={path} />
-      <Paginator pageInfo={entries.pageInfo} path={path} />
-    </>
+    <div className="grid grid-cols-6">
+      <div className="col-span-2">
+        <AttributeList attributes={mapEdgesToItems(attributes) || []} />
+      </div>
+      <div className="col-span-4">
+        <EntryList entries={mapEdgesToItems(entries) || []} path={path} />
+        <Paginator pageInfo={entries.pageInfo} path={path} />
+      </div>
+    </div>
   );
 }

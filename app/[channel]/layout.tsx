@@ -28,7 +28,7 @@ export default async function Layout({ children, params }: LayoutProps) {
   return (
     <div>
       <div>
-        <h2 className="mb-6">{channel.name}</h2>
+        <h2 className="mb-6 text-2xl font-bold">{channel.name}</h2>
       </div>
       {children}
     </div>

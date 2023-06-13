@@ -1835,7 +1835,7 @@ export type ChannelFragment = { __typename?: 'Channel', id: string, name: string
 
 export type DocumentFragment = { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null };
 
-export type EntryFragment = { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', totalCount?: number | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> };
+export type EntryFragment = { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', totalCount?: number | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null }> }> };
 
 export type EntryDetailsFragment = { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', edges: Array<{ __typename?: 'DocumentCountableEdge', node: { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null } }> } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> };
 
@@ -1875,7 +1875,7 @@ export type EntriesQueryVariables = Exact<{
 }>;
 
 
-export type EntriesQuery = { __typename?: 'Query', entries?: { __typename?: 'EntryCountableConnection', edges: Array<{ __typename?: 'EntryCountableEdge', node: { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', totalCount?: number | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+export type EntriesQuery = { __typename?: 'Query', entries?: { __typename?: 'EntryCountableConnection', edges: Array<{ __typename?: 'EntryCountableEdge', node: { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', totalCount?: number | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null }> }> } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
 
 export type EntriesPathsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -1928,9 +1928,11 @@ export const EntryFragmentDoc = gql`
   }
   attributes {
     attribute {
+      id
       name
     }
     values {
+      id
       name
     }
   }
