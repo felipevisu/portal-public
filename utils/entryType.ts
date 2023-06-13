@@ -5,3 +5,8 @@ export const getEntryType = (type: string) => {
   if (type === "veiculos") return EntryTypeEnum.VEHICLE;
   return null;
 };
+
+export function getTypeLabel(type: string) {
+  if (type === "veiculos") return "Veículos";
+  return "Fornecedores";
+}

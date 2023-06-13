@@ -32,7 +32,7 @@ export default function GridMenu({ channel }: { channel: string }) {
       {ITEMS.map((item) => (
         <Link key={item.path} href={`/${channel}/${item.path}`}>
           <div className="bg-white dark:dark:bg-gray-800 rounded-lg block overflow-hidden shadow-sm">
-            <div className="relative h-36 my-6">
+            <div className="relative h-36 my-6 ">
               <Image
                 fill={true}
                 style={{ objectFit: "contain" }}

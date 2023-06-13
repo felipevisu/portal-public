@@ -21,7 +21,9 @@ export const EntryList = ({ entries, path }: EntryListProps) => {
         >
           <div className="flex items-start">
             <h4 className="text-lg grow font-semibold">{entry.name}</h4>
-            <div className="text-gray-500">CNPJ: {entry.documentNumber}</div>
+            <div className="text-gray-600 dark:text-gray-400">
+              CNPJ: {entry.documentNumber}
+            </div>
           </div>
           <div className="grid grid-cols-2 py-3 gap-3">
             <EntryAttribute

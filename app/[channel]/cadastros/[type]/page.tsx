@@ -10,7 +10,7 @@ import {
   EntriesDocument,
   EntriesQuery,
 } from "@/portal/api";
-import { getEntryType } from "@/utils/entryType";
+import { getEntryType, getTypeLabel } from "@/utils/entryType";
 import { mapEdgesToItems } from "@/utils/maps";
 import { getPagination } from "@/utils/pagination";
 import { ApolloQueryResult } from "@apollo/client";

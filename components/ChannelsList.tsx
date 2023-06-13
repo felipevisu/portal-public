@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { ChannelFragment } from "@/portal/api";
+import { capitalize } from "@/utils/text";
 
 import Button from "./UI/button";
 import Card from "./UI/card";
@@ -15,8 +16,8 @@ export const ChannelsList = ({ channels }: ChannelsListProps) => {
       {channels.map((channel) => (
         <Link key={channel.id} href={`/${channel.slug}`}>
           <Card>
-            <h4>{channel.name}</h4>
-            <div className="text-sm text-gray-500 mb-3">
+            <h4 className="font-semibold">{capitalize(channel.name)}</h4>
+            <div className="text-sm text-gray-600 dark:text-gray-400 mb-3">
               {channel.totalEntries} veículos e fornecedores
             </div>
             <Button>Acessar</Button>

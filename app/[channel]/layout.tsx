@@ -2,8 +2,8 @@ import Link from "next/link";
 
 import client from "@/lib/client";
 import { ChannelDocument, ChannelQuery } from "@/portal/api";
+import { capitalize } from "@/utils/text";
 import { ApolloQueryResult } from "@apollo/client";
-import { HomeIcon } from "@heroicons/react/24/outline";
 
 const getData = async (slug: string) => {
   const result: ApolloQueryResult<ChannelQuery> =
@@ -27,8 +27,14 @@ export default async function Layout({ children, params }: LayoutProps) {
 
   return (
     <div>
-      <div>
-        <h2 className="mb-6 text-2xl font-bold">{channel.name}</h2>
+      <div className="mb-4">
+        <h2 className="text-2xl font-bold mb-2">
+          <Link href={`/${channel.slug}`}>
+            <span className="hover:text-rose-500">
+              {capitalize(channel.name)}
+            </span>
+          </Link>
+        </h2>
       </div>
       {children}
     </div>
