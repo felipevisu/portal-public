@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.className}>
-      <body className="bg-gray-50 dark:bg-gray-900 flex flex-col min-h-screen text-gray-900 dark:text-white">
+      <body className="bg-gray-100 dark:bg-gray-900 flex flex-col min-h-screen text-gray-900 dark:text-white">
         <Header />
         <main className="grow">
           <Container>{children}</Container>

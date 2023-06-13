@@ -16,7 +16,7 @@ export default function Header() {
               Administração pública com transparência
             </h3>
           </div>
-          <div className="bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-3 rounded-lg shadow-sm">
+          <div className="bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
             <h5 className="text-sm text-gray-500 text-center mb-2">Agência</h5>
             <Image src="/visualize.svg" alt="Agência" width={150} height={50} />
           </div>

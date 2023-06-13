@@ -13,7 +13,7 @@ interface EntryListProps {
 
 export const EntryList = ({ entries, path }: EntryListProps) => {
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm rounded-lg">
+    <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg">
       {entries?.map((entry) => (
         <div
           key={entry.id}
