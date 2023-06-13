@@ -1,3 +1,4 @@
+import GridMenu from "@/components/GridMenu";
 import client from "@/lib/client";
 import { ChannelsPathsDocument, ChannelsPathsQuery } from "@/portal/api";
 import { ApolloQueryResult } from "@apollo/client";
@@ -20,9 +21,5 @@ interface PageProps {
 }
 
 export default async function Page({ params }: PageProps) {
-  return (
-    <div>
-      <h3>Início</h3>
-    </div>
-  );
+  return <GridMenu channel={params.channel} />;
 }

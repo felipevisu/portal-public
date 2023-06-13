@@ -1,6 +1,10 @@
 import { Inter } from "next/font/google";
 import Link from "next/link";
 
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import Container from "@/components/UI/container";
+
 import "../global.css";
 
 const inter = Inter({
@@ -15,13 +19,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.className}>
-      <body>
-        <header>
-          <Link href="/">
-            <h1>Publicidade da Cidade</h1>
-          </Link>
-        </header>
-        <main>{children}</main>
+      <body className="bg-gray-50 flex flex-col min-h-screen text-slate-900">
+        <Header />
+        <main className="grow">
+          <Container>{children}</Container>
+        </main>
+        <Footer />
       </body>
     </html>
   );

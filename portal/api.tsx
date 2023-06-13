@@ -399,6 +399,7 @@ export type Channel = Node & {
   isActive: Scalars['Boolean']['output'];
   name: Scalars['String']['output'];
   slug: Scalars['String']['output'];
+  totalEntries?: Maybe<Scalars['Int']['output']>;
 };
 
 export type ChannelActivate = {
@@ -1830,7 +1831,7 @@ export type VerifyToken = {
 
 export type AttributeFragment = { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null };
 
-export type ChannelFragment = { __typename?: 'Channel', id: string, name: string, slug: string };
+export type ChannelFragment = { __typename?: 'Channel', id: string, name: string, slug: string, totalEntries?: number | null };
 
 export type DocumentFragment = { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null };
 
@@ -1852,12 +1853,12 @@ export type ChannelQueryVariables = Exact<{
 }>;
 
 
-export type ChannelQuery = { __typename?: 'Query', channel?: { __typename?: 'Channel', id: string, name: string, slug: string } | null };
+export type ChannelQuery = { __typename?: 'Query', channel?: { __typename?: 'Channel', id: string, name: string, slug: string, totalEntries?: number | null } | null };
 
 export type ChannelsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ChannelsQuery = { __typename?: 'Query', channels?: Array<{ __typename?: 'Channel', id: string, name: string, slug: string }> | null };
+export type ChannelsQuery = { __typename?: 'Query', channels?: Array<{ __typename?: 'Channel', id: string, name: string, slug: string, totalEntries?: number | null }> | null };
 
 export type ChannelsPathsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1907,6 +1908,7 @@ export const ChannelFragmentDoc = gql`
   id
   name
   slug
+  totalEntries
 }
     `;
 export const EntryFragmentDoc = gql`
@@ -2397,12 +2399,13 @@ export type CategoryUpdateFieldPolicy = {
 	category?: FieldPolicy<any> | FieldReadFunction<any>,
 	errors?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type ChannelKeySpecifier = ('id' | 'isActive' | 'name' | 'slug' | ChannelKeySpecifier)[];
+export type ChannelKeySpecifier = ('id' | 'isActive' | 'name' | 'slug' | 'totalEntries' | ChannelKeySpecifier)[];
 export type ChannelFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	isActive?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
-	slug?: FieldPolicy<any> | FieldReadFunction<any>
+	slug?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalEntries?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type ChannelActivateKeySpecifier = ('channel' | 'errors' | ChannelActivateKeySpecifier)[];
 export type ChannelActivateFieldPolicy = {

@@ -3,6 +3,7 @@ import Link from "next/link";
 import client from "@/lib/client";
 import { ChannelDocument, ChannelQuery } from "@/portal/api";
 import { ApolloQueryResult } from "@apollo/client";
+import { HomeIcon } from "@heroicons/react/24/outline";
 
 const getData = async (slug: string) => {
   const result: ApolloQueryResult<ChannelQuery> =
@@ -26,20 +27,9 @@ export default async function Layout({ children, params }: LayoutProps) {
 
   return (
     <div>
-      <h2>{channel.name}</h2>
-      <nav>
-        <ul>
-          <li>
-            <Link href={`/${params.channel}`}>Início</Link>
-          </li>
-          <li>
-            <Link href={`/${params.channel}/veiculos`}>Veículos</Link>
-          </li>
-          <li>
-            <Link href={`/${params.channel}/fornecedores`}>Fornecedores</Link>
-          </li>
-        </ul>
-      </nav>
+      <div>
+        <h2 className="mb-6">{channel.name}</h2>
+      </div>
       {children}
     </div>
   );

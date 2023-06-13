@@ -52,7 +52,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   const { attributes, entries } = await getData(params, searchParams);
   if (!attributes || !entries) return null;
 
-  const path = `/${params.channel}/${params.type}`;
+  const path = `/${params.channel}/cadastros/${params.type}`;
 
   return (
     <>

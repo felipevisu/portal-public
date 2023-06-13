@@ -2,4 +2,5 @@ fragment Channel on Channel {
   id
   name
   slug
+  totalEntries
 }
