@@ -26,11 +26,14 @@ export default async function Layout({ children, params }: LayoutProps) {
   if (!channel) return null;
 
   return (
-    <div>
-      <div className="mb-4">
-        <h2 className="text-2xl font-bold mb-2">
+    <div className="">
+      <div className=" dark:border-gray-700 py-6">
+        <h4 className="font-semibold text-sm text-gray-600 dark:text-gray-400">
+          Anunciante
+        </h4>
+        <h2 className="text-2xl font-bold">
           <Link href={`/${channel.slug}`}>
-            <span className="hover:text-rose-500">
+            <span className="hover:text-rose-600">
               {capitalize(channel.name)}
             </span>
           </Link>

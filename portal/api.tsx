@@ -1829,7 +1829,9 @@ export type VerifyToken = {
   user?: Maybe<User>;
 };
 
-export type AttributeFragment = { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null };
+export type AttributeFragment = { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, choices?: { __typename?: 'AttributeValueCountableConnection', edges: Array<{ __typename?: 'AttributeValueCountableEdge', node: { __typename?: 'AttributeValue', name?: string | null } }> } | null };
+
+export type CategoryFragment = { __typename?: 'Category', id: string, name: string, slug?: string | null, type?: EntryTypeEnum | null };
 
 export type ChannelFragment = { __typename?: 'Channel', id: string, name: string, slug: string, totalEntries?: number | null };
 
@@ -1846,7 +1848,18 @@ export type AttributesQueryVariables = Exact<{
 }>;
 
 
-export type AttributesQuery = { __typename?: 'Query', attributes?: { __typename?: 'AttributeCountableConnection', edges: Array<{ __typename?: 'AttributeCountableEdge', node: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null } }> } | null };
+export type AttributesQuery = { __typename?: 'Query', attributes?: { __typename?: 'AttributeCountableConnection', edges: Array<{ __typename?: 'AttributeCountableEdge', node: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, choices?: { __typename?: 'AttributeValueCountableConnection', edges: Array<{ __typename?: 'AttributeValueCountableEdge', node: { __typename?: 'AttributeValue', name?: string | null } }> } | null } }> } | null };
+
+export type CategoriesQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<CategoryFilterInput>;
+}>;
+
+
+export type CategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug?: string | null, type?: EntryTypeEnum | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
 
 export type ChannelQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -1897,6 +1910,21 @@ export type EntryQuery = { __typename?: 'Query', entry?: { __typename?: 'Entry',
 
 export const AttributeFragmentDoc = gql`
     fragment Attribute on Attribute {
+  id
+  name
+  slug
+  type
+  choices(first: 100) {
+    edges {
+      node {
+        name
+      }
+    }
+  }
+}
+    `;
+export const CategoryFragmentDoc = gql`
+    fragment Category on Category {
   id
   name
   slug
@@ -2029,6 +2057,59 @@ export function useAttributesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type AttributesQueryHookResult = ReturnType<typeof useAttributesQuery>;
 export type AttributesLazyQueryHookResult = ReturnType<typeof useAttributesLazyQuery>;
 export type AttributesQueryResult = Apollo.QueryResult<AttributesQuery, AttributesQueryVariables>;
+export const CategoriesDocument = gql`
+    query Categories($first: Int, $last: Int, $before: String, $after: String, $filter: CategoryFilterInput) {
+  categories(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    filter: $filter
+  ) {
+    edges {
+      node {
+        ...Category
+      }
+    }
+    pageInfo {
+      ...PageInfo
+    }
+  }
+}
+    ${CategoryFragmentDoc}
+${PageInfoFragmentDoc}`;
+
+/**
+ * __useCategoriesQuery__
+ *
+ * To run a query within a React component, call `useCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCategoriesQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      last: // value for 'last'
+ *      before: // value for 'before'
+ *      after: // value for 'after'
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
+      }
+export function useCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CategoriesQuery, CategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CategoriesQuery, CategoriesQueryVariables>(CategoriesDocument, options);
+        }
+export type CategoriesQueryHookResult = ReturnType<typeof useCategoriesQuery>;
+export type CategoriesLazyQueryHookResult = ReturnType<typeof useCategoriesLazyQuery>;
+export type CategoriesQueryResult = Apollo.QueryResult<CategoriesQuery, CategoriesQueryVariables>;
 export const ChannelDocument = gql`
     query Channel($slug: String) {
   channel(slug: $slug) {

@@ -1,0 +1,24 @@
+query Categories(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $filter: CategoryFilterInput
+) {
+  categories(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    filter: $filter
+  ) {
+    edges {
+      node {
+        ...Category
+      }
+    }
+    pageInfo {
+      ...PageInfo
+    }
+  }
+}

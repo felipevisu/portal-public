@@ -1,16 +1,18 @@
 export const revalidate = 0;
 
-import AttributeList from "@/components/AttributeList";
+import EntryFilter from "@/components/EntryFilter";
 import EntryList from "@/components/EntryList";
 import Paginator from "@/components/Pagtinator";
 import client from "@/lib/client";
 import {
   AttributesDocument,
   AttributesQuery,
+  CategoriesDocument,
+  CategoriesQuery,
   EntriesDocument,
   EntriesQuery,
 } from "@/portal/api";
-import { getEntryType, getTypeLabel } from "@/utils/entryType";
+import { getEntryType } from "@/utils/entryType";
 import { mapEdgesToItems } from "@/utils/maps";
 import { getPagination } from "@/utils/pagination";
 import { ApolloQueryResult } from "@apollo/client";
@@ -30,6 +32,12 @@ const getData = async (params: Params, searchParams: SearchParams) => {
       variables: { filter: { type: getEntryType(params.type) } },
     });
 
+  const categories: ApolloQueryResult<CategoriesQuery> =
+    await client.query<CategoriesQuery>({
+      query: CategoriesDocument,
+      variables: { first: 100, filter: { type: getEntryType(params.type) } },
+    });
+
   const pagination = getPagination(searchParams);
 
   const entries: ApolloQueryResult<EntriesQuery> =
@@ -45,22 +53,30 @@ const getData = async (params: Params, searchParams: SearchParams) => {
   return {
     attributes: attributes?.data?.attributes,
     entries: entries?.data?.entries,
+    categories: categories?.data?.categories,
   };
 };
 
 export default async function Page({ params, searchParams }: PageProps) {
-  const { attributes, entries } = await getData(params, searchParams);
-  if (!attributes || !entries) return null;
+  const { attributes, entries, categories } = await getData(
+    params,
+    searchParams
+  );
+
+  if (!attributes || !entries || !categories) return null;
 
   const path = `/${params.channel}/cadastros/${params.type}`;
 
   return (
-    <div className="grid grid-cols-6">
+    <div className="grid grid-cols-6 gap-8">
       <div className="col-span-2">
-        <AttributeList attributes={mapEdgesToItems(attributes) || []} />
+        <EntryFilter
+          attributes={mapEdgesToItems(attributes)}
+          categories={mapEdgesToItems(categories)}
+        />
       </div>
       <div className="col-span-4">
-        <EntryList entries={mapEdgesToItems(entries) || []} path={path} />
+        <EntryList entries={mapEdgesToItems(entries)} path={path} />
         <Paginator pageInfo={entries.pageInfo} path={path} />
       </div>
     </div>

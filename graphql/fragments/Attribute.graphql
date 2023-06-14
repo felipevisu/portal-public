@@ -3,4 +3,11 @@ fragment Attribute on Attribute {
   name
   slug
   type
+  choices(first: 100) {
+    edges {
+      node {
+        name
+      }
+    }
+  }
 }
