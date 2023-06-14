@@ -1829,7 +1829,7 @@ export type VerifyToken = {
   user?: Maybe<User>;
 };
 
-export type AttributeFragment = { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, choices?: { __typename?: 'AttributeValueCountableConnection', edges: Array<{ __typename?: 'AttributeValueCountableEdge', node: { __typename?: 'AttributeValue', name?: string | null } }> } | null };
+export type AttributeFragment = { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, choices?: { __typename?: 'AttributeValueCountableConnection', edges: Array<{ __typename?: 'AttributeValueCountableEdge', node: { __typename?: 'AttributeValue', id: string, name?: string | null, slug?: string | null } }> } | null };
 
 export type CategoryFragment = { __typename?: 'Category', id: string, name: string, slug?: string | null, type?: EntryTypeEnum | null };
 
@@ -1848,7 +1848,7 @@ export type AttributesQueryVariables = Exact<{
 }>;
 
 
-export type AttributesQuery = { __typename?: 'Query', attributes?: { __typename?: 'AttributeCountableConnection', edges: Array<{ __typename?: 'AttributeCountableEdge', node: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, choices?: { __typename?: 'AttributeValueCountableConnection', edges: Array<{ __typename?: 'AttributeValueCountableEdge', node: { __typename?: 'AttributeValue', name?: string | null } }> } | null } }> } | null };
+export type AttributesQuery = { __typename?: 'Query', attributes?: { __typename?: 'AttributeCountableConnection', edges: Array<{ __typename?: 'AttributeCountableEdge', node: { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, choices?: { __typename?: 'AttributeValueCountableConnection', edges: Array<{ __typename?: 'AttributeValueCountableEdge', node: { __typename?: 'AttributeValue', id: string, name?: string | null, slug?: string | null } }> } | null } }> } | null };
 
 export type CategoriesQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -1917,7 +1917,9 @@ export const AttributeFragmentDoc = gql`
   choices(first: 100) {
     edges {
       node {
+        id
         name
+        slug
       }
     }
   }

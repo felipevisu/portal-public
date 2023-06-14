@@ -1,6 +1,9 @@
 import { AttributeFragment, CategoryFragment } from "@/portal/api";
 import { capitalize } from "@/utils/text";
 
+import FilterItem from "./FilterItem";
+import buildFilters from "./utils";
+
 interface EntryFilterProps {
   attributes: AttributeFragment[];
   categories: CategoryFragment[];
@@ -10,13 +13,12 @@ export default function EntryFilter({
   attributes,
   categories,
 }: EntryFilterProps) {
+  const filters = buildFilters({ categories, attributes });
+
   return (
     <div>
-      <div>Categoria</div>
-      {attributes.map((attribute) => (
-        <div key={attribute.id}>
-          <h4>{capitalize(attribute.name || "")}</h4>
-        </div>
+      {filters.map((filter) => (
+        <FilterItem key={filter.parameter} filter={filter} />
       ))}
     </div>
   );

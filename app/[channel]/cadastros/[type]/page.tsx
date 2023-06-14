@@ -1,6 +1,6 @@
 export const revalidate = 0;
 
-import EntryFilter from "@/components/EntryFilter";
+import { EntryFilter } from "@/components/EntryFilter";
 import EntryList from "@/components/EntryList";
 import Paginator from "@/components/Pagtinator";
 import client from "@/lib/client";
