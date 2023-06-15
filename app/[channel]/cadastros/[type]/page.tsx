@@ -11,6 +11,7 @@ import {
   CategoriesQuery,
   EntriesDocument,
   EntriesQuery,
+  EntryFilterInput,
 } from "@/portal/api";
 import { getEntryType } from "@/utils/entryType";
 import { mapEdgesToItems } from "@/utils/maps";
@@ -18,7 +19,7 @@ import { getPagination } from "@/utils/pagination";
 import { ApolloQueryResult } from "@apollo/client";
 
 type Params = { channel: string; type: string };
-type SearchParams = { after?: string; before?: string };
+type SearchParams = Record<string, string>;
 
 interface PageProps {
   params: Params;
@@ -40,13 +41,26 @@ const getData = async (params: Params, searchParams: SearchParams) => {
 
   const pagination = getPagination(searchParams);
 
+  const filter: Record<string, any> = {};
+  if (searchParams.categories) {
+    filter.categories = searchParams.categories;
+  }
+  const attributesFilter: EntryFilterInput["attributes"] = [];
+  attributes?.data?.attributes?.edges.forEach((attribute) => {
+    const slug = attribute.node.slug;
+    if (slug && searchParams[slug]) {
+      attributesFilter.push({ slug: slug, values: [searchParams[slug]] });
+    }
+  });
+  if (attributesFilter.length) filter.attributes = attributesFilter;
+
   const entries: ApolloQueryResult<EntriesQuery> =
     await client.query<EntriesQuery>({
       query: EntriesDocument,
       variables: {
         ...pagination,
         channel: params.channel,
-        filter: { type: getEntryType(params.type) },
+        filter: { type: getEntryType(params.type), ...filter },
       },
     });
 

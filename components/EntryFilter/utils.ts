@@ -6,7 +6,7 @@ interface BuildFiltersProps {
   attributes: AttributeFragment[];
 }
 
-type Choice = {
+export type Choice = {
   value: string;
   label: string;
 };

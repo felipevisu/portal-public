@@ -5,7 +5,7 @@
     "plugin:prettier/recommended",
     "plugin:compat/recommended"
   ],
-  "plugins": ["simple-import-sort"],
+  "plugins": ["simple-import-sort", "compat"],
   "overrides": [
     {
       "files": ["**/*.js", "**/*.ts", "**/*.tsx"],
