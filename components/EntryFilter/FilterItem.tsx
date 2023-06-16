@@ -23,7 +23,7 @@ export default function FilterItem({ filter }: { filter: Filter }) {
   };
 
   return (
-    <div>
+    <div className="py-2">
       <Select
         options={filter.choices}
         onChange={handleChange}

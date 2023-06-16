@@ -25,6 +25,8 @@ export default function BackButton({ href }: { href: string }) {
       flex 
       items-center 
       gap-2
+      h-12
+      lg:h-max
       "
     >
       <svg
@@ -41,8 +43,7 @@ export default function BackButton({ href }: { href: string }) {
           d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
         />
       </svg>
-
-      <span>Voltar</span>
+      <span className="hidden lg:block">Voltar</span>
     </Link>,
     element
   );

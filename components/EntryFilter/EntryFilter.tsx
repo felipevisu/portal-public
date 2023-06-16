@@ -21,9 +21,9 @@ export default function EntryFilter({
   const filters = buildFilters({ categories, attributes });
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm flex flex-col gap-4">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
       <div
-        className="bg-gray-300 rounded-lg px-4 py-2 lg:hidden font-semibold flex items-center gap-2"
+        className="bg-gray-700 dark:bg-white text-white dark:text-gray-900 rounded-lg px-4 py-2 lg:hidden font-semibold flex items-center gap-2"
         onClick={() => setOpen(!open)}
       >
         <svg
