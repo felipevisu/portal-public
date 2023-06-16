@@ -87,14 +87,14 @@ export default async function Page({ params, searchParams }: PageProps) {
   const path = `/${params.channel}/cadastros/${params.type}`;
 
   return (
-    <div className="grid grid-cols-6 gap-8">
-      <div className="col-span-2">
+    <div className="flex items-start gap-8">
+      <div className="w-2/6 sticky top-4">
         <EntryFilter
           attributes={mapEdgesToItems(attributes)}
           categories={mapEdgesToItems(categories)}
         />
       </div>
-      <div className="col-span-4">
+      <div className="w-4/6">
         <BackButton href={`/${params.channel}`} />
         <EntryList
           entries={mapEdgesToItems(entries)}
