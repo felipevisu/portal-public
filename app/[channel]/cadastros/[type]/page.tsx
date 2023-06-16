@@ -1,5 +1,7 @@
 export const revalidate = 0;
 
+import dynamic from "next/dynamic";
+
 import { EntryFilter } from "@/components/EntryFilter";
 import EntryList from "@/components/EntryList";
 import Paginator from "@/components/Pagtinator";
@@ -13,13 +15,16 @@ import {
   EntriesQuery,
   EntryFilterInput,
 } from "@/portal/api";
-import { getEntryType } from "@/utils/entryType";
+import { getEntryType, getTypeLabel } from "@/utils/entryType";
 import { mapEdgesToItems } from "@/utils/maps";
 import { getPagination } from "@/utils/pagination";
 import { ApolloQueryResult } from "@apollo/client";
-
 type Params = { channel: string; type: string };
 type SearchParams = Record<string, string>;
+
+const BackButton = dynamic(() => import("@/components/BackButton"), {
+  ssr: false,
+});
 
 interface PageProps {
   params: Params;
@@ -90,7 +95,12 @@ export default async function Page({ params, searchParams }: PageProps) {
         />
       </div>
       <div className="col-span-4">
-        <EntryList entries={mapEdgesToItems(entries)} path={path} />
+        <BackButton href={`/${params.channel}`} />
+        <EntryList
+          entries={mapEdgesToItems(entries)}
+          path={path}
+          title={getTypeLabel(params.type)}
+        />
         <Paginator pageInfo={entries.pageInfo} path={path} />
       </div>
     </div>

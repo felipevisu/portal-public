@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 import { EntryFragment } from "@/portal/api";
 import { capitalize } from "@/utils/text";
@@ -9,15 +10,22 @@ import { EntryAttribute } from "./EntryAttribute";
 interface EntryListProps {
   entries: EntryFragment[];
   path: string;
+  title: string;
 }
 
-export const EntryList = ({ entries, path }: EntryListProps) => {
+export const EntryList = ({ entries, path, title }: EntryListProps) => {
   return (
-    <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg">
+    <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg mb-6">
+      <div className="bg-rose-600 dark:bg-gray-700 text-white rounded-t-lg px-6 py-3 text-xl font-semibold">
+        {title}
+      </div>
+      {!entries.length && (
+        <div className="text-center p-6">Nenhum cadastro encontrado.</div>
+      )}
       {entries?.map((entry) => (
         <div
           key={entry.id}
-          className="border-b border-gray-200 dark:border-gray-700  p-6"
+          className="border-t border-gray-200 dark:border-gray-700  p-6"
         >
           <div className="flex items-start">
             <h4 className="text-lg grow font-semibold">{entry.name}</h4>
