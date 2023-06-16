@@ -1,3 +1,5 @@
+import { Metadata } from "next";
+
 import ChannelsList from "@/components/ChannelsList";
 import client from "@/lib/client";
 import { ChannelsDocument, ChannelsQuery } from "@/portal/api";
@@ -12,6 +14,10 @@ const getData = async () => {
   return {
     channels: result?.data?.channels || [],
   };
+};
+
+export const metadata: Metadata = {
+  title: "Publicidade da Cidade",
 };
 
 export default async function Page() {

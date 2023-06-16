@@ -1,5 +1,6 @@
 export const revalidate = 0;
 
+import { Metadata } from "next";
 import dynamic from "next/dynamic";
 
 import { EntryFilter } from "@/components/EntryFilter";
@@ -30,6 +31,10 @@ interface PageProps {
   params: Params;
   searchParams: SearchParams;
 }
+
+export const metadata: Metadata = {
+  title: "Publicidade da Cidade",
+};
 
 const getData = async (params: Params, searchParams: SearchParams) => {
   const attributes: ApolloQueryResult<AttributesQuery> =

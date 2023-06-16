@@ -1,5 +1,6 @@
 export const revalidate = 60;
 
+import { Metadata } from "next";
 import dynamic from "next/dynamic";
 
 import EntryDetails from "@/components/EntryDetails";
@@ -79,6 +80,10 @@ const getData = async (params: Params) => {
 interface PageProps {
   params: Params;
 }
+
+export const metadata: Metadata = {
+  title: "Publicidade da Cidade",
+};
 
 export default async function Page({ params }: PageProps) {
   const { entry } = await getData(params);
