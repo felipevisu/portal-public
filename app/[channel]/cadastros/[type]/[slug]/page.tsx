@@ -1,5 +1,7 @@
 export const revalidate = 60;
 
+import dynamic from "next/dynamic";
+
 import EntryDetails from "@/components/EntryDetails";
 import client from "@/lib/client";
 import {
@@ -10,8 +12,12 @@ import {
   EntryDocument,
   EntryQuery,
 } from "@/portal/api";
-import { getEntryType } from "@/utils/entryType";
+import { getEntryType, getTypeLabel } from "@/utils/entryType";
 import { ApolloQueryResult } from "@apollo/client";
+
+const BackButton = dynamic(() => import("@/components/BackButton"), {
+  ssr: false,
+});
 
 type Params = {
   slug: string;
@@ -78,5 +84,10 @@ export default async function Page({ params }: PageProps) {
   const { entry } = await getData(params);
   if (!entry) return null;
 
-  return <EntryDetails entry={entry} />;
+  return (
+    <>
+      <BackButton href={`/${params.channel}/cadastros/${params.type}`} />
+      <EntryDetails entry={entry} type={getTypeLabel(params.type)} />
+    </>
+  );
 }

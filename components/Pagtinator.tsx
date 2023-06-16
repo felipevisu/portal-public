@@ -25,14 +25,14 @@ export const Paginator = ({ pageInfo, path }: PaginatorProps) => {
   return (
     <div className="mb-6 ">
       {pageInfo.hasPreviousPage && (
-        <button onClick={() => handleClick("before", pageInfo.endCursor || "")}>
+        <button
+          onClick={() => handleClick("before", pageInfo.startCursor || "")}
+        >
           Anterior
         </button>
       )}
       {pageInfo.hasNextPage && (
-        <button
-          onClick={() => handleClick("after", pageInfo.startCursor || "")}
-        >
+        <button onClick={() => handleClick("after", pageInfo.endCursor || "")}>
           Proximo
         </button>
       )}

@@ -7,6 +7,6 @@ export const getEntryType = (type: string) => {
 };
 
 export function getTypeLabel(type: string) {
-  if (type === "veiculos") return "Veículos";
-  return "Fornecedores";
+  if (type === "veiculos") return "Veículos de Comunicação";
+  return "Fornecedores de Serviços";
 }

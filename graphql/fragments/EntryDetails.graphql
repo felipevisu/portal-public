@@ -18,6 +18,7 @@ fragment EntryDetails on Entry {
   }
   attributes {
     attribute {
+      id
       name
     }
     values {

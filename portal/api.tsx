@@ -1839,7 +1839,7 @@ export type DocumentFragment = { __typename?: 'Document', id: string, name: stri
 
 export type EntryFragment = { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', totalCount?: number | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null }> }> };
 
-export type EntryDetailsFragment = { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', edges: Array<{ __typename?: 'DocumentCountableEdge', node: { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null } }> } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> };
+export type EntryDetailsFragment = { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', edges: Array<{ __typename?: 'DocumentCountableEdge', node: { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null } }> } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> };
 
 export type PageInfoFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
 
@@ -1906,7 +1906,7 @@ export type EntryQueryVariables = Exact<{
 }>;
 
 
-export type EntryQuery = { __typename?: 'Query', entry?: { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', edges: Array<{ __typename?: 'DocumentCountableEdge', node: { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null } }> } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> } | null };
+export type EntryQuery = { __typename?: 'Query', entry?: { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', edges: Array<{ __typename?: 'DocumentCountableEdge', node: { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null } }> } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> } | null };
 
 export const AttributeFragmentDoc = gql`
     fragment Attribute on Attribute {
@@ -2004,6 +2004,7 @@ export const EntryDetailsFragmentDoc = gql`
   }
   attributes {
     attribute {
+      id
       name
     }
     values {
