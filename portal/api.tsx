@@ -639,6 +639,7 @@ export enum DocumentLoadOptionsEnum {
   CND = 'CND',
   CNDT = 'CNDT',
   CNEP = 'CNEP',
+  CNPJ = 'CNPJ',
   EMPTY = 'EMPTY',
   FGTS = 'FGTS',
   JUCESP = 'JUCESP',
@@ -920,6 +921,7 @@ export type IntRangeInput = {
 
 export type Investment = Node & {
   __typename?: 'Investment';
+  channel?: Maybe<Channel>;
   id: Scalars['ID']['output'];
   isPublished?: Maybe<Scalars['Boolean']['output']>;
   items?: Maybe<Array<Item>>;
@@ -971,6 +973,7 @@ export type InvestmentFilterInput = {
 };
 
 export type InvestmentInput = {
+  channel?: InputMaybe<Scalars['ID']['input']>;
   isPublished?: InputMaybe<Scalars['Boolean']['input']>;
   items?: InputMaybe<Array<ItemCreateInput>>;
   month?: InputMaybe<Scalars['Int']['input']>;
@@ -1643,6 +1646,7 @@ export type QueryInvestmentArgs = {
 export type QueryInvestmentsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
+  channel?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<InvestmentFilterInput>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
@@ -1674,6 +1678,7 @@ export type QuerySessionArgs = {
 export type QuerySessionsArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
+  channel?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<SessionFilterInput>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
@@ -1721,6 +1726,7 @@ export type SelectedAttribute = {
 
 export type Session = Node & {
   __typename?: 'Session';
+  channel?: Maybe<Channel>;
   content?: Maybe<Scalars['JSONString']['output']>;
   date?: Maybe<Scalars['DateTime']['output']>;
   id: Scalars['ID']['output'];
@@ -1767,11 +1773,13 @@ export type SessionDelete = {
 };
 
 export type SessionFilterInput = {
+  channel?: InputMaybe<Scalars['ID']['input']>;
   isPublished?: InputMaybe<Scalars['Boolean']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SessionInput = {
+  channel?: InputMaybe<Scalars['ID']['input']>;
   content?: InputMaybe<Scalars['JSONString']['input']>;
   date?: InputMaybe<Scalars['DateTime']['input']>;
   isPublished?: InputMaybe<Scalars['Boolean']['input']>;
@@ -2737,8 +2745,9 @@ export type FileKeySpecifier = ('url' | FileKeySpecifier)[];
 export type FileFieldPolicy = {
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type InvestmentKeySpecifier = ('id' | 'isPublished' | 'items' | 'month' | 'year' | InvestmentKeySpecifier)[];
+export type InvestmentKeySpecifier = ('channel' | 'id' | 'isPublished' | 'items' | 'month' | 'year' | InvestmentKeySpecifier)[];
 export type InvestmentFieldPolicy = {
+	channel?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	isPublished?: FieldPolicy<any> | FieldReadFunction<any>,
 	items?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2961,8 +2970,9 @@ export type SelectedAttributeFieldPolicy = {
 	attribute?: FieldPolicy<any> | FieldReadFunction<any>,
 	values?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SessionKeySpecifier = ('content' | 'date' | 'id' | 'isPublished' | 'name' | 'slug' | SessionKeySpecifier)[];
+export type SessionKeySpecifier = ('channel' | 'content' | 'date' | 'id' | 'isPublished' | 'name' | 'slug' | SessionKeySpecifier)[];
 export type SessionFieldPolicy = {
+	channel?: FieldPolicy<any> | FieldReadFunction<any>,
 	content?: FieldPolicy<any> | FieldReadFunction<any>,
 	date?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,

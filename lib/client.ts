@@ -1,12 +1,18 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
+import { HttpLink } from "@apollo/client";
+import { registerApolloClient } from "@apollo/experimental-nextjs-app-support/rsc";
+import {
+  NextSSRApolloClient,
+  NextSSRInMemoryCache,
+} from "@apollo/experimental-nextjs-app-support/ssr";
 
-const link = createHttpLink({
-  uri: process.env.NEXT_PUBLIC_API_URI,
+export const { getClient } = registerApolloClient(() => {
+  return new NextSSRApolloClient({
+    cache: new NextSSRInMemoryCache(),
+    link: new HttpLink({
+      uri: process.env.NEXT_PUBLIC_API_URI,
+    }),
+  });
 });
 
-const client = new ApolloClient({
-  link: link,
-  cache: new InMemoryCache(),
-});
-
+const client = getClient();
 export default client;

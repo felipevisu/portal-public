@@ -14,7 +14,7 @@ const ITEMS = [
     path: "cadastros/fornecedores",
     thumbnail: "/provider.svg",
   },
-  /* {
+  {
     title: "Investimentos em Publicidade",
     path: "investimentos",
     thumbnail: "/investment.svg",
@@ -23,7 +23,7 @@ const ITEMS = [
     title: "Sessões Públicas",
     path: "sessoes",
     thumbnail: "/public.svg",
-  }, */
+  },
 ];
 
 export default function GridMenu({ channel }: { channel: string }) {
