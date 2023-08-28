@@ -1,0 +1,24 @@
+query Investments(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $channel: String
+) {
+  investments(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    channel: $channel
+  ) {
+    edges {
+      node {
+        ...Investment
+      }
+    }
+    pageInfo {
+      ...PageInfo
+    }
+  }
+}

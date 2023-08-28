@@ -1,0 +1,11 @@
+fragment Investment on Investment {
+  id
+  month
+  year
+  total
+  items {
+    id
+    name
+    value
+  }
+}

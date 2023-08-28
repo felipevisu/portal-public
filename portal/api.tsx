@@ -926,6 +926,7 @@ export type Investment = Node & {
   isPublished?: Maybe<Scalars['Boolean']['output']>;
   items?: Maybe<Array<Item>>;
   month: Scalars['Int']['output'];
+  total?: Maybe<Scalars['Decimal']['output']>;
   year: Scalars['Int']['output'];
 };
 
@@ -998,6 +999,7 @@ export type InvestmentUpdate = {
 
 export type InvestmentUpdateInput = {
   addItems?: InputMaybe<Array<ItemCreateInput>>;
+  channel?: InputMaybe<Scalars['ID']['input']>;
   isPublished?: InputMaybe<Scalars['Boolean']['input']>;
   month?: InputMaybe<Scalars['Int']['input']>;
   removeItems?: InputMaybe<Array<Scalars['ID']['input']>>;
@@ -1849,6 +1851,8 @@ export type EntryFragment = { __typename?: 'Entry', id: string, name: string, sl
 
 export type EntryDetailsFragment = { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', edges: Array<{ __typename?: 'DocumentCountableEdge', node: { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null } }> } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> };
 
+export type InvestmentFragment = { __typename?: 'Investment', id: string, month: number, year: number, total?: any | null, items?: Array<{ __typename?: 'Item', id: string, name: string, value?: any | null }> | null };
+
 export type PageInfoFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
 
 export type AttributesQueryVariables = Exact<{
@@ -1915,6 +1919,17 @@ export type EntryQueryVariables = Exact<{
 
 
 export type EntryQuery = { __typename?: 'Query', entry?: { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', edges: Array<{ __typename?: 'DocumentCountableEdge', node: { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null } }> } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> } | null };
+
+export type InvestmentsQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  channel?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type InvestmentsQuery = { __typename?: 'Query', investments?: { __typename?: 'InvestmentCountableConnection', edges: Array<{ __typename?: 'InvestmentCountableEdge', node: { __typename?: 'Investment', id: string, month: number, year: number, total?: any | null, items?: Array<{ __typename?: 'Item', id: string, name: string, value?: any | null }> | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
 
 export const AttributeFragmentDoc = gql`
     fragment Attribute on Attribute {
@@ -2021,6 +2036,19 @@ export const EntryDetailsFragmentDoc = gql`
   }
 }
     ${DocumentFragmentDoc}`;
+export const InvestmentFragmentDoc = gql`
+    fragment Investment on Investment {
+  id
+  month
+  year
+  total
+  items {
+    id
+    name
+    value
+  }
+}
+    `;
 export const PageInfoFragmentDoc = gql`
     fragment PageInfo on PageInfo {
   endCursor
@@ -2357,6 +2385,59 @@ export function useEntryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Entr
 export type EntryQueryHookResult = ReturnType<typeof useEntryQuery>;
 export type EntryLazyQueryHookResult = ReturnType<typeof useEntryLazyQuery>;
 export type EntryQueryResult = Apollo.QueryResult<EntryQuery, EntryQueryVariables>;
+export const InvestmentsDocument = gql`
+    query Investments($first: Int, $last: Int, $before: String, $after: String, $channel: String) {
+  investments(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    channel: $channel
+  ) {
+    edges {
+      node {
+        ...Investment
+      }
+    }
+    pageInfo {
+      ...PageInfo
+    }
+  }
+}
+    ${InvestmentFragmentDoc}
+${PageInfoFragmentDoc}`;
+
+/**
+ * __useInvestmentsQuery__
+ *
+ * To run a query within a React component, call `useInvestmentsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useInvestmentsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useInvestmentsQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      last: // value for 'last'
+ *      before: // value for 'before'
+ *      after: // value for 'after'
+ *      channel: // value for 'channel'
+ *   },
+ * });
+ */
+export function useInvestmentsQuery(baseOptions?: Apollo.QueryHookOptions<InvestmentsQuery, InvestmentsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<InvestmentsQuery, InvestmentsQueryVariables>(InvestmentsDocument, options);
+      }
+export function useInvestmentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<InvestmentsQuery, InvestmentsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<InvestmentsQuery, InvestmentsQueryVariables>(InvestmentsDocument, options);
+        }
+export type InvestmentsQueryHookResult = ReturnType<typeof useInvestmentsQuery>;
+export type InvestmentsLazyQueryHookResult = ReturnType<typeof useInvestmentsLazyQuery>;
+export type InvestmentsQueryResult = Apollo.QueryResult<InvestmentsQuery, InvestmentsQueryVariables>;
 export type ApproveDocumentFileKeySpecifier = ('documentFile' | 'errors' | ApproveDocumentFileKeySpecifier)[];
 export type ApproveDocumentFileFieldPolicy = {
 	documentFile?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2745,13 +2826,14 @@ export type FileKeySpecifier = ('url' | FileKeySpecifier)[];
 export type FileFieldPolicy = {
 	url?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type InvestmentKeySpecifier = ('channel' | 'id' | 'isPublished' | 'items' | 'month' | 'year' | InvestmentKeySpecifier)[];
+export type InvestmentKeySpecifier = ('channel' | 'id' | 'isPublished' | 'items' | 'month' | 'total' | 'year' | InvestmentKeySpecifier)[];
 export type InvestmentFieldPolicy = {
 	channel?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	isPublished?: FieldPolicy<any> | FieldReadFunction<any>,
 	items?: FieldPolicy<any> | FieldReadFunction<any>,
 	month?: FieldPolicy<any> | FieldReadFunction<any>,
+	total?: FieldPolicy<any> | FieldReadFunction<any>,
 	year?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type InvestmentBulkDeleteKeySpecifier = ('count' | 'errors' | InvestmentBulkDeleteKeySpecifier)[];
