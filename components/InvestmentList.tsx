@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { InvestmentFragment } from "@/portal/api";
@@ -35,6 +35,10 @@ export default function InvestmentList({ investments }: InvestmentListProps) {
       return investments.find((item) => item.id === id);
     }
   }, [searchParams, investments]);
+
+  useEffect(() => {
+    if (!open) router.push(pathname);
+  }, [open, router, pathname]);
 
   return (
     <>
