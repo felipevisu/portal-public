@@ -1,6 +1,7 @@
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
 
-import { InvestmentList } from "@/components/InvesmentList";
+import InvestmentList from "@/components/InvestmentList";
 import client from "@/lib/client";
 import { InvestmentsDocument, InvestmentsQuery } from "@/portal/api";
 import { mapEdgesToItems } from "@/utils/maps";

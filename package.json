@@ -12,7 +12,7 @@
   "dependencies": {
     "@apollo/client": "^3.8.0-rc.1",
     "@apollo/experimental-nextjs-app-support": "^0.4.1",
-    "@headlessui/react": "^1.7.15",
+    "@headlessui/react": "^1.7.17",
     "@heroicons/react": "^2.0.18",
     "@types/node": "20.2.5",
     "@types/react": "18.2.8",
