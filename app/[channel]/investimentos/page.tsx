@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 
+import BackButton from "@/components/BackButton";
 import InvestmentList from "@/components/InvestmentList";
 import client from "@/lib/client";
 import { InvestmentsDocument, InvestmentsQuery } from "@/portal/api";
@@ -34,5 +35,10 @@ export default async function Page({ params }: PageProps) {
 
   if (!investments) return null;
 
-  return <InvestmentList investments={mapEdgesToItems(investments)} />;
+  return (
+    <>
+      <BackButton href={`/${params.channel}`} />
+      <InvestmentList investments={mapEdgesToItems(investments)} />
+    </>
+  );
 }

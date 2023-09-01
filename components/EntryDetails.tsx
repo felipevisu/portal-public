@@ -14,7 +14,7 @@ export const EntryDetails = ({ entry, type }: EntryDetailsProps) => {
 
   return (
     <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg mb-6 lg:max-w-screen-lg mx-auto">
-      <div className="bg-rose-600 dark:bg-gray-700 text-white rounded-t-lg px-6 py-3 text-xl font-semibold">
+      <div className="bg-gray-200 dark:bg-gray-700 dark:text-white rounded-t-lg px-6 py-3 text-xl font-semibold">
         {entry.name}
       </div>
       <div className="p-6">
@@ -53,7 +53,7 @@ export const EntryDetails = ({ entry, type }: EntryDetailsProps) => {
               <div>
                 <a
                   target="_blank"
-                  className="bg-rose-600 hover:bg-rose-700 text-white px-3 py-1 rounded-md flex items-center gap-1"
+                  className="bg-amber-500 hover:bg-amber-600 text-white px-3 py-1 rounded-md flex items-center gap-1"
                   href={document.defaultFile?.file?.url}
                 >
                   <svg

@@ -16,7 +16,7 @@ interface EntryListProps {
 export const EntryList = ({ entries, path, title }: EntryListProps) => {
   return (
     <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg mb-6">
-      <div className="bg-rose-600 dark:bg-gray-700 text-white rounded-t-lg px-6 py-3 text-xl font-semibold">
+      <div className="bg-gray-200 dark:bg-gray-700 dark:text-white rounded-t-lg px-6 py-3 text-xl font-semibold">
         {title}
       </div>
       {!entries.length && (

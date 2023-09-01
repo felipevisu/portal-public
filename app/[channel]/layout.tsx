@@ -54,7 +54,7 @@ export default async function Layout({ children, params }: LayoutProps) {
               </h4>
               <h2 className="text-lg lg:text-2xl font-bold">
                 <Link href={`/${channel.slug}`}>
-                  <span className="hover:text-rose-600">
+                  <span className="hover:text-amber-600">
                     {capitalize(channel.name)}
                   </span>
                 </Link>
