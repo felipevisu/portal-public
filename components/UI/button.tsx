@@ -11,7 +11,7 @@ export default function Button(props: ButtonProps) {
   return (
     <button
       type="button"
-      className="bg-amber-500 hover:bg-amber-600 text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg"
+      className="bg-rose-600 hover:bg-rose-700 text-white text-sm leading-6 font-medium py-2 px-3 rounded-lg"
       {...otherProps}
     >
       {children}
