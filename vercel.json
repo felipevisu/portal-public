@@ -1,9 +1,6 @@
 {
-  "redirects": [
-    {"source": "/admin", "destination": "/admin/"}
-  ],
   "rewrites": [
-    {"source": "/:client/admin/", "destination": "https://portal-frontend-psi.vercel.app/"},
-    {"source": "/:client/admin/:match*", "destination": "https://portal-frontend-psi.vercel.app/:match*"}
+    {"source": "/admin/", "destination": "https://portal-frontend-psi.vercel.app/"},
+    {"source": "/admin/:match*", "destination": "https://portal-frontend-psi.vercel.app/:match*"}
   ]
 }
