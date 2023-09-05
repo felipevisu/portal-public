@@ -1,14 +1,13 @@
 import { Metadata } from "next";
-import dynamic from "next/dynamic";
 
 import BackButton from "@/components/BackButton";
 import InvestmentList from "@/components/InvestmentList";
-import client from "@/lib/client";
+import createClient from "@/lib/client";
 import { InvestmentsDocument, InvestmentsQuery } from "@/portal/api";
 import { mapEdgesToItems } from "@/utils/maps";
 import { ApolloQueryResult } from "@apollo/client";
 
-type Params = { channel: string };
+type Params = { client: string; channel: string };
 
 interface PageProps {
   params: Params;
@@ -19,6 +18,7 @@ export const metadata: Metadata = {
 };
 
 const getData = async (params: Params) => {
+  const client = createClient(params.client);
   const investments: ApolloQueryResult<InvestmentsQuery> =
     await client.query<InvestmentsQuery>({
       query: InvestmentsDocument,

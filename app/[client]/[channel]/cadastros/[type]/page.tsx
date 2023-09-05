@@ -1,12 +1,10 @@
-export const revalidate = 60;
-
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 
 import { EntryFilter } from "@/components/EntryFilter";
 import EntryList from "@/components/EntryList";
 import Paginator from "@/components/Pagtinator";
-import client from "@/lib/client";
+import createClient from "@/lib/client";
 import {
   AttributesDocument,
   AttributesQuery,
@@ -20,7 +18,8 @@ import { getEntryType, getTypeLabel } from "@/utils/entryType";
 import { mapEdgesToItems } from "@/utils/maps";
 import { getPagination } from "@/utils/pagination";
 import { ApolloQueryResult } from "@apollo/client";
-type Params = { channel: string; type: string };
+
+type Params = { client: string; channel: string; type: string };
 type SearchParams = Record<string, string>;
 
 const BackButton = dynamic(() => import("@/components/BackButton"), {
@@ -37,6 +36,8 @@ export const metadata: Metadata = {
 };
 
 const getData = async (params: Params, searchParams: SearchParams) => {
+  const client = createClient(params.client);
+
   const attributes: ApolloQueryResult<AttributesQuery> =
     await client.query<AttributesQuery>({
       query: AttributesDocument,

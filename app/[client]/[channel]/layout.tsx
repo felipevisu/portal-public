@@ -1,27 +1,30 @@
 import Link from "next/link";
 
-import client from "@/lib/client";
+import createClient from "@/lib/client";
 import { ChannelDocument, ChannelQuery } from "@/portal/api";
 import { capitalize } from "@/utils/text";
 import { ApolloQueryResult } from "@apollo/client";
 
-const getData = async (slug: string) => {
+type Params = { client: string; channel: string };
+
+interface LayoutProps {
+  children: React.ReactNode;
+  params: Params;
+}
+
+const getData = async (params: Params) => {
+  const client = createClient(params.client);
   const result: ApolloQueryResult<ChannelQuery> =
     await client.query<ChannelQuery>({
       query: ChannelDocument,
-      variables: { slug: slug },
+      variables: { slug: params.channel },
     });
 
   return { channel: result?.data?.channel };
 };
 
-interface LayoutProps {
-  children: React.ReactNode;
-  params: { channel: string };
-}
-
 export default async function Layout({ children, params }: LayoutProps) {
-  const { channel } = await getData(params.channel);
+  const { channel } = await getData(params);
 
   if (!channel) return null;
 
