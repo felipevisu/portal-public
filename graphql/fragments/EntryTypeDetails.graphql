@@ -1,0 +1,8 @@
+fragment EntryTypeDetails on EntryType {
+  id
+  name
+  slug
+  entryAttributes {
+    ...Attribute
+  }
+}

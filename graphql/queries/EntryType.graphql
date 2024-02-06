@@ -1,0 +1,5 @@
+query EntryTypeDetails($slug: String) {
+  entryType(slug: $slug) {
+    ...EntryTypeDetails
+  }
+}

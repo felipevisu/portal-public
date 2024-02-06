@@ -1,5 +1,6 @@
 overwrite: true
-schema: https://visualize.herokuapp.com/graphql/
+schema:
+  - ${NEXT_PUBLIC_API_URI}visualize/graphql/
 documents: "graphql/**/*.{ts,graphql}"
 generates:
   portal/api.tsx:

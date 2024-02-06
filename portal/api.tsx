@@ -134,8 +134,7 @@ export type AttributeDelete = {
 
 /** An enumeration. */
 export enum AttributeEntityTypeEnum {
-  PROVIDER = 'PROVIDER',
-  VEHICLE = 'VEHICLE'
+  ENTRY = 'ENTRY'
 }
 
 export type AttributeFilterInput = {
@@ -193,10 +192,7 @@ export type AttributeSortingInput = {
 
 /** An enumeration. */
 export enum AttributeTypeEnum {
-  DOCUMENT = 'DOCUMENT',
-  PROVIDER = 'PROVIDER',
-  VEHICLE = 'VEHICLE',
-  VEHICLE_AND_PROVIDER = 'VEHICLE_AND_PROVIDER'
+  ENTRY_TYPE = 'ENTRY_TYPE'
 }
 
 export type AttributeUpdate = {
@@ -325,7 +321,6 @@ export type Category = Node & {
   name: Scalars['String']['output'];
   slug?: Maybe<Scalars['String']['output']>;
   totalEntries?: Maybe<Scalars['Int']['output']>;
-  type?: Maybe<EntryTypeEnum>;
 };
 
 /** Deletes categories. */
@@ -368,13 +363,11 @@ export type CategoryDelete = {
 export type CategoryFilterInput = {
   ids?: InputMaybe<Array<Scalars['ID']['input']>>;
   search?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<EntryTypeEnum>;
 };
 
 export type CategoryInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<EntryTypeEnum>;
 };
 
 export enum CategorySortField {
@@ -608,7 +601,6 @@ export type DocumentFilterInput = {
   expires?: InputMaybe<Scalars['Boolean']['input']>;
   isPublished?: InputMaybe<Scalars['Boolean']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<EntryTypeEnum>;
   waiting?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
@@ -700,10 +692,10 @@ export type Entry = Node & {
   documentNumber?: Maybe<Scalars['String']['output']>;
   documents?: Maybe<DocumentCountableConnection>;
   email?: Maybe<Scalars['String']['output']>;
+  entryType?: Maybe<EntryType>;
   id: Scalars['ID']['output'];
   name: Scalars['String']['output'];
   slug: Scalars['String']['output'];
-  type?: Maybe<EntryTypeEnum>;
   updated?: Maybe<Scalars['DateTime']['output']>;
 };
 
@@ -713,6 +705,27 @@ export type EntryDocumentsArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Assign attributes to a given entry type. */
+export type EntryAttributeAssign = {
+  __typename?: 'EntryAttributeAssign';
+  /** The updated entry type. */
+  entryType?: Maybe<EntryType>;
+  errors: Array<EntryError>;
+};
+
+export type EntryAttributeAssignInput = {
+  /** The ID of the attribute to assign. */
+  id: Scalars['ID']['input'];
+};
+
+/** Un-assign attributes from a given entry type. */
+export type EntryAttributeUnassign = {
+  __typename?: 'EntryAttributeUnassign';
+  /** The updated entry type. */
+  entryType?: Maybe<EntryType>;
+  errors: Array<EntryError>;
 };
 
 /** Deletes entries. */
@@ -805,9 +818,9 @@ export type EntryFilterInput = {
   attributes?: InputMaybe<Array<AttributeInput>>;
   categories?: InputMaybe<Array<Scalars['ID']['input']>>;
   channel?: InputMaybe<Scalars['String']['input']>;
+  entryTypes?: InputMaybe<Array<Scalars['ID']['input']>>;
   isPublished?: InputMaybe<Scalars['Boolean']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<EntryTypeEnum>;
 };
 
 export type EntryInput = {
@@ -817,11 +830,11 @@ export type EntryInput = {
   categories?: InputMaybe<Array<Scalars['ID']['input']>>;
   documentNumber?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
+  entryType?: InputMaybe<Scalars['ID']['input']>;
   isPublished?: InputMaybe<Scalars['Boolean']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   phone?: InputMaybe<Scalars['String']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<EntryTypeEnum>;
 };
 
 export enum EntrySortField {
@@ -837,11 +850,81 @@ export type EntrySortingInput = {
   field: EntrySortField;
 };
 
-/** An enumeration. */
-export enum EntryTypeEnum {
-  PROVIDER = 'PROVIDER',
-  VEHICLE = 'VEHICLE'
+export type EntryType = Node & {
+  __typename?: 'EntryType';
+  /**
+   * List of attributes which can be assigned to this product type.
+   *
+   * Requires one of the following permissions: MANAGE_ENTRY_TYPES.
+   */
+  availableAttributes?: Maybe<AttributeCountableConnection>;
+  /** Product attributes of that product type. */
+  entryAttributes?: Maybe<Array<Attribute>>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
+  slug?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type EntryTypeAvailableAttributesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<AttributeFilterInput>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type EntryTypeCountableConnection = {
+  __typename?: 'EntryTypeCountableConnection';
+  edges: Array<EntryTypeCountableEdge>;
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo;
+  /** A total count of items in the collection. */
+  totalCount?: Maybe<Scalars['Int']['output']>;
+};
+
+export type EntryTypeCountableEdge = {
+  __typename?: 'EntryTypeCountableEdge';
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output'];
+  /** The item at the end of the edge. */
+  node: EntryType;
+};
+
+export type EntryTypeCreate = {
+  __typename?: 'EntryTypeCreate';
+  entryType?: Maybe<EntryType>;
+  errors: Array<Error>;
+};
+
+export type EntryTypeDelete = {
+  __typename?: 'EntryTypeDelete';
+  entryType?: Maybe<EntryType>;
+  errors: Array<Error>;
+};
+
+export type EntryTypeInput = {
+  /** List of attributes shared among all entries. */
+  entryAttributes?: InputMaybe<Array<Scalars['ID']['input']>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+};
+
+export enum EntryTypeSortField {
+  NAME = 'NAME'
 }
+
+export type EntryTypeSortingInput = {
+  direction: OrderDirection;
+  /** Sort entry_types by the selected field. */
+  field: EntryTypeSortField;
+};
+
+export type EntryTypeUpdate = {
+  __typename?: 'EntryTypeUpdate';
+  entryType?: Maybe<EntryType>;
+  errors: Array<Error>;
+};
 
 export type EntryUpdate = {
   __typename?: 'EntryUpdate';
@@ -1088,11 +1171,18 @@ export type Mutation = {
   documentFileDelete?: Maybe<DocumentFileDelete>;
   documentUpdate?: Maybe<DocumentUpdate>;
   documentUpdateByEntry?: Maybe<DocumentUpdateByEntry>;
+  /** Assign attributes to a given entry type. */
+  entryAttributeAssign?: Maybe<EntryAttributeAssign>;
+  /** Un-assign attributes from a given entry type. */
+  entryAttributeUnassign?: Maybe<EntryAttributeUnassign>;
   /** Deletes entries. */
   entryBulkDelete?: Maybe<EntryBulkDelete>;
   entryChannelListingUpdate?: Maybe<EntryChannelListingUpdate>;
   entryCreate?: Maybe<EntryCreate>;
   entryDelete?: Maybe<EntryDelete>;
+  entryTypeCreate?: Maybe<EntryTypeCreate>;
+  entryTypeDelete?: Maybe<EntryTypeDelete>;
+  entryTypeUpdate?: Maybe<EntryTypeUpdate>;
   entryUpdate?: Maybe<EntryUpdate>;
   /** Deletes segments. */
   investmentBulkDelete?: Maybe<InvestmentBulkDelete>;
@@ -1251,6 +1341,18 @@ export type MutationDocumentUpdateByEntryArgs = {
 };
 
 
+export type MutationEntryAttributeAssignArgs = {
+  entryTypeId: Scalars['ID']['input'];
+  operations: Array<EntryAttributeAssignInput>;
+};
+
+
+export type MutationEntryAttributeUnassignArgs = {
+  attributeIds: Array<Scalars['ID']['input']>;
+  entryTypeId: Scalars['ID']['input'];
+};
+
+
 export type MutationEntryBulkDeleteArgs = {
   ids: Array<Scalars['ID']['input']>;
 };
@@ -1269,6 +1371,22 @@ export type MutationEntryCreateArgs = {
 
 export type MutationEntryDeleteArgs = {
   id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationEntryTypeCreateArgs = {
+  input: EntryTypeInput;
+};
+
+
+export type MutationEntryTypeDeleteArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+};
+
+
+export type MutationEntryTypeUpdateArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  input: EntryTypeInput;
 };
 
 
@@ -1335,7 +1453,6 @@ export type MutationPasswordResetArgs = {
 
 
 export type MutationPluginUpdateArgs = {
-  channelId?: InputMaybe<Scalars['ID']['input']>;
   id: Scalars['ID']['input'];
   input: PluginUpdateInput;
 };
@@ -1537,6 +1654,8 @@ export type Query = {
   documents?: Maybe<DocumentCountableConnection>;
   entries?: Maybe<EntryCountableConnection>;
   entry?: Maybe<Entry>;
+  entryType?: Maybe<EntryType>;
+  entryTypes?: Maybe<EntryTypeCountableConnection>;
   /**
    *
    *
@@ -1627,6 +1746,21 @@ export type QueryEntryArgs = {
   channel?: InputMaybe<Scalars['String']['input']>;
   id?: InputMaybe<Scalars['ID']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryEntryTypeArgs = {
+  id?: InputMaybe<Scalars['ID']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryEntryTypesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  sortBy?: InputMaybe<EntryTypeSortingInput>;
 };
 
 
@@ -1841,15 +1975,19 @@ export type VerifyToken = {
 
 export type AttributeFragment = { __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, choices?: { __typename?: 'AttributeValueCountableConnection', edges: Array<{ __typename?: 'AttributeValueCountableEdge', node: { __typename?: 'AttributeValue', id: string, name?: string | null, slug?: string | null } }> } | null };
 
-export type CategoryFragment = { __typename?: 'Category', id: string, name: string, slug?: string | null, type?: EntryTypeEnum | null };
+export type CategoryFragment = { __typename?: 'Category', id: string, name: string, slug?: string | null };
 
 export type ChannelFragment = { __typename?: 'Channel', id: string, name: string, slug: string, totalEntries?: number | null };
 
 export type DocumentFragment = { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null };
 
-export type EntryFragment = { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', totalCount?: number | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null }> }> };
+export type EntryFragment = { __typename?: 'Entry', id: string, name: string, slug: string, documentNumber?: string | null, entryType?: { __typename?: 'EntryType', id: string, name: string, slug?: string | null } | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', totalCount?: number | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null }> }> };
 
-export type EntryDetailsFragment = { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', edges: Array<{ __typename?: 'DocumentCountableEdge', node: { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null } }> } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> };
+export type EntryDetailsFragment = { __typename?: 'Entry', id: string, name: string, slug: string, documentNumber?: string | null, entryType?: { __typename?: 'EntryType', id: string, name: string, slug?: string | null } | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', edges: Array<{ __typename?: 'DocumentCountableEdge', node: { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null } }> } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> };
+
+export type EntryTypeFragment = { __typename?: 'EntryType', id: string, name: string, slug?: string | null };
+
+export type EntryTypeDetailsFragment = { __typename?: 'EntryType', id: string, name: string, slug?: string | null, entryAttributes?: Array<{ __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, choices?: { __typename?: 'AttributeValueCountableConnection', edges: Array<{ __typename?: 'AttributeValueCountableEdge', node: { __typename?: 'AttributeValue', id: string, name?: string | null, slug?: string | null } }> } | null }> | null };
 
 export type InvestmentFragment = { __typename?: 'Investment', id: string, month: number, year: number, total?: any | null, items?: Array<{ __typename?: 'Item', id: string, name: string, value?: any | null }> | null };
 
@@ -1871,7 +2009,7 @@ export type CategoriesQueryVariables = Exact<{
 }>;
 
 
-export type CategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug?: string | null, type?: EntryTypeEnum | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+export type CategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryCountableConnection', edges: Array<{ __typename?: 'CategoryCountableEdge', node: { __typename?: 'Category', id: string, name: string, slug?: string | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
 
 export type ChannelQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']['input']>;
@@ -1900,13 +2038,12 @@ export type EntriesQueryVariables = Exact<{
 }>;
 
 
-export type EntriesQuery = { __typename?: 'Query', entries?: { __typename?: 'EntryCountableConnection', edges: Array<{ __typename?: 'EntryCountableEdge', node: { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', totalCount?: number | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null }> }> } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+export type EntriesQuery = { __typename?: 'Query', entries?: { __typename?: 'EntryCountableConnection', edges: Array<{ __typename?: 'EntryCountableEdge', node: { __typename?: 'Entry', id: string, name: string, slug: string, documentNumber?: string | null, entryType?: { __typename?: 'EntryType', id: string, name: string, slug?: string | null } | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', totalCount?: number | null } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', id: string, name?: string | null }> }> } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
 
 export type EntriesPathsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
   channel?: InputMaybe<Scalars['String']['input']>;
-  type?: InputMaybe<EntryTypeEnum>;
 }>;
 
 
@@ -1918,7 +2055,14 @@ export type EntryQueryVariables = Exact<{
 }>;
 
 
-export type EntryQuery = { __typename?: 'Query', entry?: { __typename?: 'Entry', id: string, name: string, slug: string, type?: EntryTypeEnum | null, documentNumber?: string | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', edges: Array<{ __typename?: 'DocumentCountableEdge', node: { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null } }> } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> } | null };
+export type EntryQuery = { __typename?: 'Query', entry?: { __typename?: 'Entry', id: string, name: string, slug: string, documentNumber?: string | null, entryType?: { __typename?: 'EntryType', id: string, name: string, slug?: string | null } | null, categories?: Array<{ __typename?: 'Category', id: string, name: string, slug?: string | null }> | null, documents?: { __typename?: 'DocumentCountableConnection', edges: Array<{ __typename?: 'DocumentCountableEdge', node: { __typename?: 'Document', id: string, name: string, description?: string | null, expires?: boolean | null, defaultFile?: { __typename?: 'DocumentFile', beginDate?: any | null, expirationDate?: any | null, file?: { __typename?: 'File', url: string } | null } | null } }> } | null, attributes: Array<{ __typename?: 'SelectedAttribute', attribute: { __typename?: 'Attribute', id: string, name?: string | null }, values: Array<{ __typename?: 'AttributeValue', name?: string | null }> }> } | null };
+
+export type EntryTypeDetailsQueryVariables = Exact<{
+  slug?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type EntryTypeDetailsQuery = { __typename?: 'Query', entryType?: { __typename?: 'EntryType', id: string, name: string, slug?: string | null, entryAttributes?: Array<{ __typename?: 'Attribute', id: string, name?: string | null, slug?: string | null, type?: AttributeTypeEnum | null, choices?: { __typename?: 'AttributeValueCountableConnection', edges: Array<{ __typename?: 'AttributeValueCountableEdge', node: { __typename?: 'AttributeValue', id: string, name?: string | null, slug?: string | null } }> } | null }> | null } | null };
 
 export type InvestmentsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -1931,29 +2075,11 @@ export type InvestmentsQueryVariables = Exact<{
 
 export type InvestmentsQuery = { __typename?: 'Query', investments?: { __typename?: 'InvestmentCountableConnection', edges: Array<{ __typename?: 'InvestmentCountableEdge', node: { __typename?: 'Investment', id: string, month: number, year: number, total?: any | null, items?: Array<{ __typename?: 'Item', id: string, name: string, value?: any | null }> | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
 
-export const AttributeFragmentDoc = gql`
-    fragment Attribute on Attribute {
-  id
-  name
-  slug
-  type
-  choices(first: 100) {
-    edges {
-      node {
-        id
-        name
-        slug
-      }
-    }
-  }
-}
-    `;
 export const CategoryFragmentDoc = gql`
     fragment Category on Category {
   id
   name
   slug
-  type
 }
     `;
 export const ChannelFragmentDoc = gql`
@@ -1969,7 +2095,11 @@ export const EntryFragmentDoc = gql`
   id
   name
   slug
-  type
+  entryType {
+    id
+    name
+    slug
+  }
   documentNumber
   categories {
     id
@@ -2011,8 +2141,12 @@ export const EntryDetailsFragmentDoc = gql`
   id
   name
   slug
-  type
   documentNumber
+  entryType {
+    id
+    name
+    slug
+  }
   categories {
     id
     name
@@ -2036,6 +2170,40 @@ export const EntryDetailsFragmentDoc = gql`
   }
 }
     ${DocumentFragmentDoc}`;
+export const EntryTypeFragmentDoc = gql`
+    fragment EntryType on EntryType {
+  id
+  name
+  slug
+}
+    `;
+export const AttributeFragmentDoc = gql`
+    fragment Attribute on Attribute {
+  id
+  name
+  slug
+  type
+  choices(first: 100) {
+    edges {
+      node {
+        id
+        name
+        slug
+      }
+    }
+  }
+}
+    `;
+export const EntryTypeDetailsFragmentDoc = gql`
+    fragment EntryTypeDetails on EntryType {
+  id
+  name
+  slug
+  entryAttributes {
+    ...Attribute
+  }
+}
+    ${AttributeFragmentDoc}`;
 export const InvestmentFragmentDoc = gql`
     fragment Investment on Investment {
   id
@@ -2308,8 +2476,8 @@ export type EntriesQueryHookResult = ReturnType<typeof useEntriesQuery>;
 export type EntriesLazyQueryHookResult = ReturnType<typeof useEntriesLazyQuery>;
 export type EntriesQueryResult = Apollo.QueryResult<EntriesQuery, EntriesQueryVariables>;
 export const EntriesPathsDocument = gql`
-    query EntriesPaths($first: Int, $after: String, $channel: String, $type: EntryTypeEnum) {
-  entries(first: $first, after: $after, channel: $channel, filter: {type: $type}) {
+    query EntriesPaths($first: Int, $after: String, $channel: String) {
+  entries(first: $first, after: $after, channel: $channel) {
     edges {
       node {
         slug
@@ -2334,7 +2502,6 @@ export const EntriesPathsDocument = gql`
  *      first: // value for 'first'
  *      after: // value for 'after'
  *      channel: // value for 'channel'
- *      type: // value for 'type'
  *   },
  * });
  */
@@ -2385,6 +2552,41 @@ export function useEntryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Entr
 export type EntryQueryHookResult = ReturnType<typeof useEntryQuery>;
 export type EntryLazyQueryHookResult = ReturnType<typeof useEntryLazyQuery>;
 export type EntryQueryResult = Apollo.QueryResult<EntryQuery, EntryQueryVariables>;
+export const EntryTypeDetailsDocument = gql`
+    query EntryTypeDetails($slug: String) {
+  entryType(slug: $slug) {
+    ...EntryTypeDetails
+  }
+}
+    ${EntryTypeDetailsFragmentDoc}`;
+
+/**
+ * __useEntryTypeDetailsQuery__
+ *
+ * To run a query within a React component, call `useEntryTypeDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEntryTypeDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEntryTypeDetailsQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useEntryTypeDetailsQuery(baseOptions?: Apollo.QueryHookOptions<EntryTypeDetailsQuery, EntryTypeDetailsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<EntryTypeDetailsQuery, EntryTypeDetailsQueryVariables>(EntryTypeDetailsDocument, options);
+      }
+export function useEntryTypeDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<EntryTypeDetailsQuery, EntryTypeDetailsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<EntryTypeDetailsQuery, EntryTypeDetailsQueryVariables>(EntryTypeDetailsDocument, options);
+        }
+export type EntryTypeDetailsQueryHookResult = ReturnType<typeof useEntryTypeDetailsQuery>;
+export type EntryTypeDetailsLazyQueryHookResult = ReturnType<typeof useEntryTypeDetailsLazyQuery>;
+export type EntryTypeDetailsQueryResult = Apollo.QueryResult<EntryTypeDetailsQuery, EntryTypeDetailsQueryVariables>;
 export const InvestmentsDocument = gql`
     query Investments($first: Int, $last: Int, $before: String, $after: String, $channel: String) {
   investments(
@@ -2535,13 +2737,12 @@ export type BulkItemErrorFieldPolicy = {
 	index?: FieldPolicy<any> | FieldReadFunction<any>,
 	message?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type CategoryKeySpecifier = ('id' | 'name' | 'slug' | 'totalEntries' | 'type' | CategoryKeySpecifier)[];
+export type CategoryKeySpecifier = ('id' | 'name' | 'slug' | 'totalEntries' | CategoryKeySpecifier)[];
 export type CategoryFieldPolicy = {
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	slug?: FieldPolicy<any> | FieldReadFunction<any>,
-	totalEntries?: FieldPolicy<any> | FieldReadFunction<any>,
-	type?: FieldPolicy<any> | FieldReadFunction<any>
+	totalEntries?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type CategoryBulkDeleteKeySpecifier = ('count' | 'errors' | CategoryBulkDeleteKeySpecifier)[];
 export type CategoryBulkDeleteFieldPolicy = {
@@ -2716,7 +2917,7 @@ export type DocumentUpdateByEntryFieldPolicy = {
 	documentFile?: FieldPolicy<any> | FieldReadFunction<any>,
 	errors?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type EntryKeySpecifier = ('attributes' | 'categories' | 'channel' | 'channelListings' | 'consult' | 'created' | 'documentNumber' | 'documents' | 'email' | 'id' | 'name' | 'slug' | 'type' | 'updated' | EntryKeySpecifier)[];
+export type EntryKeySpecifier = ('attributes' | 'categories' | 'channel' | 'channelListings' | 'consult' | 'created' | 'documentNumber' | 'documents' | 'email' | 'entryType' | 'id' | 'name' | 'slug' | 'updated' | EntryKeySpecifier)[];
 export type EntryFieldPolicy = {
 	attributes?: FieldPolicy<any> | FieldReadFunction<any>,
 	categories?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2727,11 +2928,21 @@ export type EntryFieldPolicy = {
 	documentNumber?: FieldPolicy<any> | FieldReadFunction<any>,
 	documents?: FieldPolicy<any> | FieldReadFunction<any>,
 	email?: FieldPolicy<any> | FieldReadFunction<any>,
+	entryType?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	name?: FieldPolicy<any> | FieldReadFunction<any>,
 	slug?: FieldPolicy<any> | FieldReadFunction<any>,
-	type?: FieldPolicy<any> | FieldReadFunction<any>,
 	updated?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EntryAttributeAssignKeySpecifier = ('entryType' | 'errors' | EntryAttributeAssignKeySpecifier)[];
+export type EntryAttributeAssignFieldPolicy = {
+	entryType?: FieldPolicy<any> | FieldReadFunction<any>,
+	errors?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EntryAttributeUnassignKeySpecifier = ('entryType' | 'errors' | EntryAttributeUnassignKeySpecifier)[];
+export type EntryAttributeUnassignFieldPolicy = {
+	entryType?: FieldPolicy<any> | FieldReadFunction<any>,
+	errors?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type EntryBulkDeleteKeySpecifier = ('count' | 'errors' | EntryBulkDeleteKeySpecifier)[];
 export type EntryBulkDeleteFieldPolicy = {
@@ -2787,6 +2998,40 @@ export type EntryErrorFieldPolicy = {
 	field?: FieldPolicy<any> | FieldReadFunction<any>,
 	message?: FieldPolicy<any> | FieldReadFunction<any>,
 	values?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EntryTypeKeySpecifier = ('availableAttributes' | 'entryAttributes' | 'id' | 'name' | 'slug' | EntryTypeKeySpecifier)[];
+export type EntryTypeFieldPolicy = {
+	availableAttributes?: FieldPolicy<any> | FieldReadFunction<any>,
+	entryAttributes?: FieldPolicy<any> | FieldReadFunction<any>,
+	id?: FieldPolicy<any> | FieldReadFunction<any>,
+	name?: FieldPolicy<any> | FieldReadFunction<any>,
+	slug?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EntryTypeCountableConnectionKeySpecifier = ('edges' | 'pageInfo' | 'totalCount' | EntryTypeCountableConnectionKeySpecifier)[];
+export type EntryTypeCountableConnectionFieldPolicy = {
+	edges?: FieldPolicy<any> | FieldReadFunction<any>,
+	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
+	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EntryTypeCountableEdgeKeySpecifier = ('cursor' | 'node' | EntryTypeCountableEdgeKeySpecifier)[];
+export type EntryTypeCountableEdgeFieldPolicy = {
+	cursor?: FieldPolicy<any> | FieldReadFunction<any>,
+	node?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EntryTypeCreateKeySpecifier = ('entryType' | 'errors' | EntryTypeCreateKeySpecifier)[];
+export type EntryTypeCreateFieldPolicy = {
+	entryType?: FieldPolicy<any> | FieldReadFunction<any>,
+	errors?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EntryTypeDeleteKeySpecifier = ('entryType' | 'errors' | EntryTypeDeleteKeySpecifier)[];
+export type EntryTypeDeleteFieldPolicy = {
+	entryType?: FieldPolicy<any> | FieldReadFunction<any>,
+	errors?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type EntryTypeUpdateKeySpecifier = ('entryType' | 'errors' | EntryTypeUpdateKeySpecifier)[];
+export type EntryTypeUpdateFieldPolicy = {
+	entryType?: FieldPolicy<any> | FieldReadFunction<any>,
+	errors?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type EntryUpdateKeySpecifier = ('entry' | 'errors' | EntryUpdateKeySpecifier)[];
 export type EntryUpdateFieldPolicy = {
@@ -2900,7 +3145,7 @@ export type LoadNewDocumentFromAPIFieldPolicy = {
 	documentLoad?: FieldPolicy<any> | FieldReadFunction<any>,
 	errors?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('approveDocumentFile' | 'attributeCreate' | 'attributeDelete' | 'attributeUpdate' | 'attributeValueCreate' | 'attributeValueDelete' | 'attributeValueUpdate' | 'categoryBulkDelete' | 'categoryCreate' | 'categoryDelete' | 'categoryUpdate' | 'channelActivate' | 'channelCreate' | 'channelDeactivate' | 'channelDelete' | 'channelUpdate' | 'consultDocument' | 'documentBulkDelete' | 'documentCreate' | 'documentDelete' | 'documentFileDelete' | 'documentUpdate' | 'documentUpdateByEntry' | 'entryBulkDelete' | 'entryChannelListingUpdate' | 'entryCreate' | 'entryDelete' | 'entryUpdate' | 'investmentBulkDelete' | 'investmentCreate' | 'investmentDelete' | 'investmentUpdate' | 'itemBulkCreate' | 'itemCreate' | 'itemDelete' | 'itemUpdate' | 'loadNewDocumentFromApi' | 'passwordReset' | 'pluginUpdate' | 'refuseDocumentFile' | 'requestNewDocument' | 'requestPasswordReset' | 'restoreDocumentFile' | 'sessionBulkDelete' | 'sessionCreate' | 'sessionDelete' | 'sessionUpdate' | 'tokenCreate' | 'tokenRefresh' | 'tokenVerify' | 'tokensDeactivateAll' | 'validateToken' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('approveDocumentFile' | 'attributeCreate' | 'attributeDelete' | 'attributeUpdate' | 'attributeValueCreate' | 'attributeValueDelete' | 'attributeValueUpdate' | 'categoryBulkDelete' | 'categoryCreate' | 'categoryDelete' | 'categoryUpdate' | 'channelActivate' | 'channelCreate' | 'channelDeactivate' | 'channelDelete' | 'channelUpdate' | 'consultDocument' | 'documentBulkDelete' | 'documentCreate' | 'documentDelete' | 'documentFileDelete' | 'documentUpdate' | 'documentUpdateByEntry' | 'entryAttributeAssign' | 'entryAttributeUnassign' | 'entryBulkDelete' | 'entryChannelListingUpdate' | 'entryCreate' | 'entryDelete' | 'entryTypeCreate' | 'entryTypeDelete' | 'entryTypeUpdate' | 'entryUpdate' | 'investmentBulkDelete' | 'investmentCreate' | 'investmentDelete' | 'investmentUpdate' | 'itemBulkCreate' | 'itemCreate' | 'itemDelete' | 'itemUpdate' | 'loadNewDocumentFromApi' | 'passwordReset' | 'pluginUpdate' | 'refuseDocumentFile' | 'requestNewDocument' | 'requestPasswordReset' | 'restoreDocumentFile' | 'sessionBulkDelete' | 'sessionCreate' | 'sessionDelete' | 'sessionUpdate' | 'tokenCreate' | 'tokenRefresh' | 'tokenVerify' | 'tokensDeactivateAll' | 'validateToken' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	approveDocumentFile?: FieldPolicy<any> | FieldReadFunction<any>,
 	attributeCreate?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -2925,10 +3170,15 @@ export type MutationFieldPolicy = {
 	documentFileDelete?: FieldPolicy<any> | FieldReadFunction<any>,
 	documentUpdate?: FieldPolicy<any> | FieldReadFunction<any>,
 	documentUpdateByEntry?: FieldPolicy<any> | FieldReadFunction<any>,
+	entryAttributeAssign?: FieldPolicy<any> | FieldReadFunction<any>,
+	entryAttributeUnassign?: FieldPolicy<any> | FieldReadFunction<any>,
 	entryBulkDelete?: FieldPolicy<any> | FieldReadFunction<any>,
 	entryChannelListingUpdate?: FieldPolicy<any> | FieldReadFunction<any>,
 	entryCreate?: FieldPolicy<any> | FieldReadFunction<any>,
 	entryDelete?: FieldPolicy<any> | FieldReadFunction<any>,
+	entryTypeCreate?: FieldPolicy<any> | FieldReadFunction<any>,
+	entryTypeDelete?: FieldPolicy<any> | FieldReadFunction<any>,
+	entryTypeUpdate?: FieldPolicy<any> | FieldReadFunction<any>,
 	entryUpdate?: FieldPolicy<any> | FieldReadFunction<any>,
 	investmentBulkDelete?: FieldPolicy<any> | FieldReadFunction<any>,
 	investmentCreate?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3001,7 +3251,7 @@ export type PluginUpdateFieldPolicy = {
 	errors?: FieldPolicy<any> | FieldReadFunction<any>,
 	plugin?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type QueryKeySpecifier = ('attribute' | 'attributes' | 'categories' | 'category' | 'channel' | 'channels' | 'document' | 'documentLoad' | 'documents' | 'entries' | 'entry' | 'events' | 'investment' | 'investments' | 'me' | 'plugin' | 'plugins' | 'session' | 'sessions' | QueryKeySpecifier)[];
+export type QueryKeySpecifier = ('attribute' | 'attributes' | 'categories' | 'category' | 'channel' | 'channels' | 'document' | 'documentLoad' | 'documents' | 'entries' | 'entry' | 'entryType' | 'entryTypes' | 'events' | 'investment' | 'investments' | 'me' | 'plugin' | 'plugins' | 'session' | 'sessions' | QueryKeySpecifier)[];
 export type QueryFieldPolicy = {
 	attribute?: FieldPolicy<any> | FieldReadFunction<any>,
 	attributes?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3014,6 +3264,8 @@ export type QueryFieldPolicy = {
 	documents?: FieldPolicy<any> | FieldReadFunction<any>,
 	entries?: FieldPolicy<any> | FieldReadFunction<any>,
 	entry?: FieldPolicy<any> | FieldReadFunction<any>,
+	entryType?: FieldPolicy<any> | FieldReadFunction<any>,
+	entryTypes?: FieldPolicy<any> | FieldReadFunction<any>,
 	events?: FieldPolicy<any> | FieldReadFunction<any>,
 	investment?: FieldPolicy<any> | FieldReadFunction<any>,
 	investments?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -3296,6 +3548,14 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | EntryKeySpecifier | (() => undefined | EntryKeySpecifier),
 		fields?: EntryFieldPolicy,
 	},
+	EntryAttributeAssign?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EntryAttributeAssignKeySpecifier | (() => undefined | EntryAttributeAssignKeySpecifier),
+		fields?: EntryAttributeAssignFieldPolicy,
+	},
+	EntryAttributeUnassign?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EntryAttributeUnassignKeySpecifier | (() => undefined | EntryAttributeUnassignKeySpecifier),
+		fields?: EntryAttributeUnassignFieldPolicy,
+	},
 	EntryBulkDelete?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EntryBulkDeleteKeySpecifier | (() => undefined | EntryBulkDeleteKeySpecifier),
 		fields?: EntryBulkDeleteFieldPolicy,
@@ -3331,6 +3591,30 @@ export type StrictTypedTypePolicies = {
 	EntryError?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EntryErrorKeySpecifier | (() => undefined | EntryErrorKeySpecifier),
 		fields?: EntryErrorFieldPolicy,
+	},
+	EntryType?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EntryTypeKeySpecifier | (() => undefined | EntryTypeKeySpecifier),
+		fields?: EntryTypeFieldPolicy,
+	},
+	EntryTypeCountableConnection?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EntryTypeCountableConnectionKeySpecifier | (() => undefined | EntryTypeCountableConnectionKeySpecifier),
+		fields?: EntryTypeCountableConnectionFieldPolicy,
+	},
+	EntryTypeCountableEdge?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EntryTypeCountableEdgeKeySpecifier | (() => undefined | EntryTypeCountableEdgeKeySpecifier),
+		fields?: EntryTypeCountableEdgeFieldPolicy,
+	},
+	EntryTypeCreate?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EntryTypeCreateKeySpecifier | (() => undefined | EntryTypeCreateKeySpecifier),
+		fields?: EntryTypeCreateFieldPolicy,
+	},
+	EntryTypeDelete?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EntryTypeDeleteKeySpecifier | (() => undefined | EntryTypeDeleteKeySpecifier),
+		fields?: EntryTypeDeleteFieldPolicy,
+	},
+	EntryTypeUpdate?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | EntryTypeUpdateKeySpecifier | (() => undefined | EntryTypeUpdateKeySpecifier),
+		fields?: EntryTypeUpdateFieldPolicy,
 	},
 	EntryUpdate?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | EntryUpdateKeySpecifier | (() => undefined | EntryUpdateKeySpecifier),

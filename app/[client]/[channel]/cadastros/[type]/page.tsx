@@ -6,15 +6,14 @@ import EntryList from "@/components/EntryList";
 import Paginator from "@/components/Pagtinator";
 import createClient from "@/lib/client";
 import {
-  AttributesDocument,
-  AttributesQuery,
   CategoriesDocument,
   CategoriesQuery,
   EntriesDocument,
   EntriesQuery,
   EntryFilterInput,
+  EntryTypeDetailsDocument,
+  EntryTypeDetailsQuery,
 } from "@/portal/api";
-import { getEntryType, getTypeLabel } from "@/utils/entryType";
 import { mapEdgesToItems } from "@/utils/maps";
 import { getPagination } from "@/utils/pagination";
 import { ApolloQueryResult } from "@apollo/client";
@@ -38,16 +37,16 @@ export const metadata: Metadata = {
 const getData = async (params: Params, searchParams: SearchParams) => {
   const client = createClient(params.client);
 
-  const attributes: ApolloQueryResult<AttributesQuery> =
-    await client.query<AttributesQuery>({
-      query: AttributesDocument,
-      variables: { filter: { type: getEntryType(params.type) } },
+  const entryType: ApolloQueryResult<EntryTypeDetailsQuery> =
+    await client.query<EntryTypeDetailsQuery>({
+      query: EntryTypeDetailsDocument,
+      variables: { slug: params.type },
     });
 
   const categories: ApolloQueryResult<CategoriesQuery> =
     await client.query<CategoriesQuery>({
       query: CategoriesDocument,
-      variables: { first: 100, filter: { type: getEntryType(params.type) } },
+      variables: { first: 100 },
     });
 
   const pagination = getPagination(searchParams);
@@ -57,8 +56,8 @@ const getData = async (params: Params, searchParams: SearchParams) => {
     filter.categories = searchParams.categories;
   }
   const attributesFilter: EntryFilterInput["attributes"] = [];
-  attributes?.data?.attributes?.edges.forEach((attribute) => {
-    const slug = attribute.node.slug;
+  entryType?.data?.entryType?.entryAttributes?.forEach((attribute) => {
+    const slug = attribute.slug;
     if (slug && searchParams[slug]) {
       attributesFilter.push({ slug: slug, values: [searchParams[slug]] });
     }
@@ -71,24 +70,26 @@ const getData = async (params: Params, searchParams: SearchParams) => {
       variables: {
         ...pagination,
         channel: params.channel,
-        filter: { type: getEntryType(params.type), ...filter },
+        filter: { entryTypes: [entryType.data.entryType?.id], ...filter },
       },
     });
 
+  console.log(entryType);
+
   return {
-    attributes: attributes?.data?.attributes,
+    entryType: entryType?.data.entryType,
     entries: entries?.data?.entries,
     categories: categories?.data?.categories,
   };
 };
 
 export default async function Page({ params, searchParams }: PageProps) {
-  const { attributes, entries, categories } = await getData(
+  const { entryType, entries, categories } = await getData(
     params,
     searchParams
   );
 
-  if (!attributes || !entries || !categories) return null;
+  if (!entryType || !entries || !categories) return null;
 
   const path = `/${params.channel}/cadastros/${params.type}`;
 
@@ -96,7 +97,7 @@ export default async function Page({ params, searchParams }: PageProps) {
     <div className="flex flex-wrap lg:flex-nowrap items-start gap-8">
       <div className="w-full lg:w-2/6 sticky top-4">
         <EntryFilter
-          attributes={mapEdgesToItems(attributes)}
+          attributes={entryType.entryAttributes || []}
           categories={mapEdgesToItems(categories)}
         />
       </div>
@@ -105,7 +106,7 @@ export default async function Page({ params, searchParams }: PageProps) {
         <EntryList
           entries={mapEdgesToItems(entries)}
           path={path}
-          title={getTypeLabel(params.type)}
+          title={entryType.name}
         />
         <Paginator pageInfo={entries.pageInfo} path={path} />
       </div>

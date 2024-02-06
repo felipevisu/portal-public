@@ -1,0 +1,5 @@
+fragment EntryType on EntryType {
+  id
+  name
+  slug
+}

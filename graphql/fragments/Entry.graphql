@@ -2,7 +2,11 @@ fragment Entry on Entry {
   id
   name
   slug
-  type
+  entryType {
+    id
+    name
+    slug
+  }
   documentNumber
   categories {
     id
