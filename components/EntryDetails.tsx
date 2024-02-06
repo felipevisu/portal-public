@@ -6,10 +6,9 @@ import { EntryAttribute } from "./EntryAttribute";
 
 interface EntryDetailsProps {
   entry: EntryDetailsFragment;
-  type: string;
 }
 
-export const EntryDetails = ({ entry, type }: EntryDetailsProps) => {
+export const EntryDetails = ({ entry }: EntryDetailsProps) => {
   const documents = mapEdgesToItems(entry.documents!);
 
   return (

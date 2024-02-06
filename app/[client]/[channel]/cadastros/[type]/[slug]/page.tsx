@@ -6,7 +6,6 @@ import dynamic from "next/dynamic";
 import EntryDetails from "@/components/EntryDetails";
 import createClient from "@/lib/client";
 import { EntryDocument, EntryQuery } from "@/portal/api";
-import { getEntryType, getTypeLabel } from "@/utils/entryType";
 import { ApolloQueryResult } from "@apollo/client";
 
 const BackButton = dynamic(() => import("@/components/BackButton"), {
@@ -47,7 +46,7 @@ export default async function Page({ params }: PageProps) {
   return (
     <>
       <BackButton href={`/${params.channel}/cadastros/${params.type}`} />
-      <EntryDetails entry={entry} type={getTypeLabel(params.type)} />
+      <EntryDetails entry={entry} />
     </>
   );
 }
