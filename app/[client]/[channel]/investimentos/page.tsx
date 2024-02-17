@@ -1,8 +1,8 @@
 export const revalidate = 60;
 
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
 
-import BackButton from "@/components/BackButton";
 import InvestmentList from "@/components/InvestmentList";
 import createClient from "@/lib/client";
 import { InvestmentsDocument, InvestmentsQuery } from "@/portal/api";
@@ -10,6 +10,10 @@ import { mapEdgesToItems } from "@/utils/maps";
 import { ApolloQueryResult } from "@apollo/client";
 
 type Params = { client: string; channel: string };
+
+const BackButton = dynamic(() => import("@/components/BackButton"), {
+  ssr: false,
+});
 
 interface PageProps {
   params: Params;
