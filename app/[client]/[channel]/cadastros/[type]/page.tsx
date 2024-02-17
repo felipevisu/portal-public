@@ -1,3 +1,5 @@
+export const revalidate = 60;
+
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 
@@ -73,8 +75,6 @@ const getData = async (params: Params, searchParams: SearchParams) => {
         filter: { entryTypes: [entryType.data.entryType?.id], ...filter },
       },
     });
-
-  console.log(entryType);
 
   return {
     entryType: entryType?.data.entryType,
