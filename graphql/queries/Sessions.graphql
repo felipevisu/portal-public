@@ -1,0 +1,24 @@
+query Sessions(
+  $first: Int
+  $last: Int
+  $before: String
+  $after: String
+  $channel: String
+) {
+  sessions(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    channel: $channel
+  ) {
+    edges {
+      node {
+        ...Session
+      }
+    }
+    pageInfo {
+      ...PageInfo
+    }
+  }
+}

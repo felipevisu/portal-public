@@ -1909,7 +1909,6 @@ export type SessionDelete = {
 };
 
 export type SessionFilterInput = {
-  channel?: InputMaybe<Scalars['ID']['input']>;
   isPublished?: InputMaybe<Scalars['Boolean']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1993,6 +1992,10 @@ export type InvestmentFragment = { __typename?: 'Investment', id: string, month:
 
 export type PageInfoFragment = { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null };
 
+export type SessionFragment = { __typename?: 'Session', id: string, name: string, slug?: string | null, date?: string | null };
+
+export type SessionDetailsFragment = { __typename?: 'Session', id: string, name: string, slug?: string | null, date?: string | null, content?: string | null };
+
 export type AttributesQueryVariables = Exact<{
   filter?: InputMaybe<AttributeFilterInput>;
 }>;
@@ -2074,6 +2077,24 @@ export type InvestmentsQueryVariables = Exact<{
 
 
 export type InvestmentsQuery = { __typename?: 'Query', investments?: { __typename?: 'InvestmentCountableConnection', edges: Array<{ __typename?: 'InvestmentCountableEdge', node: { __typename?: 'Investment', id: string, month: number, year: number, total?: any | null, items?: Array<{ __typename?: 'Item', id: string, name: string, value?: any | null }> | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
+
+export type SessionDetailsQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']['input']>;
+}>;
+
+
+export type SessionDetailsQuery = { __typename?: 'Query', session?: { __typename?: 'Session', id: string, name: string, slug?: string | null, date?: string | null, content?: string | null } | null };
+
+export type SessionsQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  channel?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type SessionsQuery = { __typename?: 'Query', sessions?: { __typename?: 'SessionCountableConnection', edges: Array<{ __typename?: 'SessionCountableEdge', node: { __typename?: 'Session', id: string, name: string, slug?: string | null, date?: string | null } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } | null };
 
 export const CategoryFragmentDoc = gql`
     fragment Category on Category {
@@ -2223,6 +2244,23 @@ export const PageInfoFragmentDoc = gql`
   hasNextPage
   hasPreviousPage
   startCursor
+}
+    `;
+export const SessionFragmentDoc = gql`
+    fragment Session on Session {
+  id
+  name
+  slug
+  date
+}
+    `;
+export const SessionDetailsFragmentDoc = gql`
+    fragment SessionDetails on Session {
+  id
+  name
+  slug
+  date
+  content
 }
     `;
 export const AttributesDocument = gql`
@@ -2640,6 +2678,94 @@ export function useInvestmentsLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type InvestmentsQueryHookResult = ReturnType<typeof useInvestmentsQuery>;
 export type InvestmentsLazyQueryHookResult = ReturnType<typeof useInvestmentsLazyQuery>;
 export type InvestmentsQueryResult = Apollo.QueryResult<InvestmentsQuery, InvestmentsQueryVariables>;
+export const SessionDetailsDocument = gql`
+    query SessionDetails($id: ID) {
+  session(id: $id) {
+    ...SessionDetails
+  }
+}
+    ${SessionDetailsFragmentDoc}`;
+
+/**
+ * __useSessionDetailsQuery__
+ *
+ * To run a query within a React component, call `useSessionDetailsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSessionDetailsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSessionDetailsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useSessionDetailsQuery(baseOptions?: Apollo.QueryHookOptions<SessionDetailsQuery, SessionDetailsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SessionDetailsQuery, SessionDetailsQueryVariables>(SessionDetailsDocument, options);
+      }
+export function useSessionDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SessionDetailsQuery, SessionDetailsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SessionDetailsQuery, SessionDetailsQueryVariables>(SessionDetailsDocument, options);
+        }
+export type SessionDetailsQueryHookResult = ReturnType<typeof useSessionDetailsQuery>;
+export type SessionDetailsLazyQueryHookResult = ReturnType<typeof useSessionDetailsLazyQuery>;
+export type SessionDetailsQueryResult = Apollo.QueryResult<SessionDetailsQuery, SessionDetailsQueryVariables>;
+export const SessionsDocument = gql`
+    query Sessions($first: Int, $last: Int, $before: String, $after: String, $channel: String) {
+  sessions(
+    first: $first
+    last: $last
+    before: $before
+    after: $after
+    channel: $channel
+  ) {
+    edges {
+      node {
+        ...Session
+      }
+    }
+    pageInfo {
+      ...PageInfo
+    }
+  }
+}
+    ${SessionFragmentDoc}
+${PageInfoFragmentDoc}`;
+
+/**
+ * __useSessionsQuery__
+ *
+ * To run a query within a React component, call `useSessionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSessionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSessionsQuery({
+ *   variables: {
+ *      first: // value for 'first'
+ *      last: // value for 'last'
+ *      before: // value for 'before'
+ *      after: // value for 'after'
+ *      channel: // value for 'channel'
+ *   },
+ * });
+ */
+export function useSessionsQuery(baseOptions?: Apollo.QueryHookOptions<SessionsQuery, SessionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SessionsQuery, SessionsQueryVariables>(SessionsDocument, options);
+      }
+export function useSessionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SessionsQuery, SessionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SessionsQuery, SessionsQueryVariables>(SessionsDocument, options);
+        }
+export type SessionsQueryHookResult = ReturnType<typeof useSessionsQuery>;
+export type SessionsLazyQueryHookResult = ReturnType<typeof useSessionsLazyQuery>;
+export type SessionsQueryResult = Apollo.QueryResult<SessionsQuery, SessionsQueryVariables>;
 export type ApproveDocumentFileKeySpecifier = ('documentFile' | 'errors' | ApproveDocumentFileKeySpecifier)[];
 export type ApproveDocumentFileFieldPolicy = {
 	documentFile?: FieldPolicy<any> | FieldReadFunction<any>,

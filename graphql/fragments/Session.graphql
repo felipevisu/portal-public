@@ -1,0 +1,6 @@
+fragment Session on Session {
+  id
+  name
+  slug
+  date
+}

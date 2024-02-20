@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Container from "@/components/UI/container";
 
-import "../global.css";
+import "../global.scss";
 
 const inter = Inter({
   subsets: ["latin"],

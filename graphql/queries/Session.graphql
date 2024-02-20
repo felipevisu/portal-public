@@ -1,0 +1,5 @@
+query SessionDetails($id: ID) {
+  session(id: $id) {
+    ...SessionDetails
+  }
+}
