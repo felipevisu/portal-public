@@ -10,7 +10,7 @@ export async function middleware(req: NextRequest) {
 
   const host = req.headers.get("host");
   const params = host?.split(".") || [];
-  const subdomain = params?.length > 1 ? params[0] : null;
+  const subdomain = params?.length > 1 ? params[params.length - 2] : null;
   if (subdomain) url.pathname = `/${subdomain}${url.pathname}`;
 
   return NextResponse.rewrite(url);
